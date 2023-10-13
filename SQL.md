@@ -11,11 +11,11 @@ CREATE DATABASE dbname
     ON(content)
     LOG ON(content);
 ALTER DATABASE dbname
-    MODIFY FILE()
-    ADD LOG FILE()
-DROP DATABASE dbname
-USE dbname
-SHOW dbname
+    MODIFY FILE();
+    ADD LOG FILE();
+DROP DATABASE dbname;
+USE dbname;
+SHOW dbname;
 SHOW DATABASES;
 ```
 
@@ -31,27 +31,27 @@ CREATE TABLE tbname
      [,table constraint]
      ); 
 
-DROP TABLE tbname,...
-DESC tbname
+DROP TABLE tbname,... //删除表
+
 ALTER TABLE tbname
     ADD colname datatype [constraint]
     ADD [CONSTRAINT constname] <constraint>
     WITH NOCHECK//原数据不做要求,新数据受约束限制.
     DROP COLUMN <colname> <datatype>
     DROP CONSTRAINT <consname>
-    ALTER COLUMN colname datatype [constraint] //SQL Server / MS Access
-    MODIFY COLUMN colname datatype [constraint]//My SQL / Oracle
-SHOW TABLES;
-
+    ALTER COLUMN colname datatype [constraint]; //SQL Server / MS Access
+    MODIFY COLUMN colname datatype [constraint];//My SQL / Oracle
+DESC tbname;   //查看表信息
+SHOW TABLES;  //显示所有表
 
 ```
 
 ```sql
 constraint:
-    UNIQUE
+    UNIQUE,
     PRIMARY KEY,
     NOT NULL,
-    DEFAULT <val> FOR colname,
+    DEFAULT <val> FOR colname, //缺省值,插入时可不填值默认为该值.
     CHECK(<condition>),
 table constraint:
     PRIMARY KEY(colnames),
@@ -59,26 +59,51 @@ table constraint:
 
 ```
 
-#### 索引
+#### Index
 
 ```sql
 CREATE
     [UNIQUE][CLUSTERED|NONCLUSTERED]
     INDEX idname
-    ON tbname(colname[ASC|DESC],...)
+    ON tbname(colname[ASC|DESC],...);
 //用于 MS Access 的 DROP INDEX 语法：
-DROP INDEX idname ON tbname
+DROP INDEX idname ON tbname;
 
 //用于 MS SQL Server 的 DROP INDEX 语法：
-DROP INDEX tbname.idname
+DROP INDEX tbname.idname;
 
 //用于 DB2/Oracle 的 DROP INDEX 语法：
-DROP INDEX idname
+DROP INDEX idname;
 
 //用于 MySQL 的 DROP INDEX 语法：
-ALTER TABLE tbname DROP INDEX idname
+ALTER TABLE tbname DROP INDEX idname;
 
 
+```
+
+### 操作
+
+```sql
+// 插入数据
+INSERT INTO table_name [(column1,column2,column3,...)]
+    VALUES (value1,value2,value3,...);// 1)插入元组
+    SELECT colname(s) FROM table1;    // 2)插入子查询结果
+
+// 删除特定元组
+DELETE FROM tbname
+    WHERE <condition>;
+
+// 修改特定元组的数据
+UPDATE table_name
+    SET column1 = value1, column2 = value2, ...
+    WHERE condition;
+
+
+SELECT column_name(s) //
+    INTO newtable [IN externaldb]
+    FROM table1;
+
+TRUNCATE TABLE table_name;//仅清空表中数据,表仍存在
 ```
 
 
@@ -86,14 +111,15 @@ ALTER TABLE tbname DROP INDEX idname
 ### 查询
 
 ```sql
-SELECT [DISTINCT] <expression>,...
-    AS colname //为列起别名
+SELECT [DISTINCT] 
+    <expression> AS alianame,...
     FROM tbname,...
     WHERE <condition>
     ORDER BY colname [ASC|DESC],...
     GROUP BY colname HAVING <condition>
     TOP <number|percent> //SQL server/MS Acess
-    LIMIT number         //MySql
+        WITH TIES        //返回和最后一元组相同的连续排列的多个元组
+    LIMIT num1 OFFSET num2         //MySql
 ```
 
 expression:
@@ -114,7 +140,8 @@ AND,OR,NOT,   //连接词
 IS [NOT] NULL //空值
 [NOT] LIKE '<匹配串>' [ESCAPE '<转义符>'] //字符匹配
 [NOT] IN   (ele1,ele2,...)               //确定集合
-[NOT] BETWEEN <va>AND <vb>               //连续区间
+[NOT] BETWEEN <va> AND <vb>               //连续区间
+#BETWEEN CAST('1970-01-01' AS DATETIME ) AND CAST('1970-12-31' AS DATETIME)
 ```
 
 通配符:
@@ -126,49 +153,43 @@ IS [NOT] NULL //空值
 - \[ ]  : 匹配任一字符
 
 - \[^] : 不匹配任一字符
+  
+  
 
 #### 子查询
+
+子查询可嵌套多个
+
+- 相关子查询
+  外查询每次输入一个元组到内查询, 内查询根据条件判断输出/不输出元组.
+
+- 不相关子查询
+  先进行内查询, 再进行外查询
+
+**Exist谓词**
 
 
 
 #### 集合查询
 
-
-
-
-
-### 操作
-
 ```sql
-INSERT INTO table_name (column1,column2,column3,...)
-    VALUES (value1,value2,value3,...);// 1)插入元组
-    SELECT colname(s) FROM table1;    // 2)插入子查询结果
 
-SELECT column_name(s)
-    INTO newtable [IN externaldb]
-    FROM table1;
 
-UPDATE table_name
-    SET column1 = value1, column2 = value2, ...
-    WHERE condition;
-
-DELETE FROM tbname
-    WHERE <condition>;
-
-TRUNCATE TABLE table_name//仅删除表中数据
+EXCEPT
 ```
 
 
 
-### 控制
+#### 派生表查询
 
 ```sql
-GRANT
-
-REVOKE
-
-DENY
-
+SELECT * FROM
+(
+    SELECT * FROM
+    (
+        SELECT * FROM()AS TC
+    )AS TB
+)AS TA
 ```
 
 
@@ -185,7 +206,7 @@ JOIN
         LEFT JOIN:   左外连接; 使右表中没有匹配，也从左表返回所有的行.
         RIGHT JOIN:  右外连接; 即使左表中没有匹配，也从右表返回所有的行.
         FULL JOIN:   全外连接; 只要其中一个表中存在匹配，则返回行.
-
+        CROSS JOIN:
     语法
         ｜ SELECT column1, column2, ...
         ｜ ​FROM table1  JOIN table2 
@@ -207,26 +228,78 @@ UNION
 
 ```
 
-
-
-
+<img title="" src="./pic/sql-join.png" alt="join" style="zoom:80%;">
 
 ### 视图
 
+与表同级,为虚表. 数据库中只存放视图定理, 对应数据仍在原数据表内.
+
 ```sql
-CREATE VIEW <view_name> 
-    AS SELECT column_name(s)
-    FROM table_name
-    WHERE condition
-    [WITH CHECK OPTION]
-DROP VIEW <viewname>
+// 创建视图
+CREATE VIEW <view_name> AS 
+    SELECT column_name(s)
+        FROM table_name
+        WHERE condition
+    [WITH CHECK OPTION]; //以后添加的元组必须满足该条件
+
+// 删除视图
+DROP VIEW <viewname>;
+
+//更新视图
+//视图不存储数据, 通过视图更新数据最终转化为对基本表的更新.
+
+```
+
+### 控制
+
+```sql
+GRANT
+
+REVOKE
+
+DENY
+
 ```
 
 
 
 
 
+## TRICKS
 
+```sql
+# 笛卡尔积
+SELECT *
+FROM 
+    table1 AS a,
+    table2 AS b
+
+#对使用了GROUP BY或ORDER BY的查询结果截取列
+SELECT Email
+FROM (
+    SELECT email as Email,COUNT(email) as num
+    FROM Person
+    GROUP BY email
+)AS T
+WHERE num!=1
+
+# WHERE 语句高级用法
+# 重复类
+SELECT 
+    b.name AS Department,
+    a.name AS Employee,
+    a.salary AS Salary
+FROM Employee as a JOIN Department as b 
+    ON a.departmentId=b.id
+WHERE   (a.departmentId,a.salary) IN
+        (   SELECT departmentId,MAX(Salary)
+            FROM Employee
+            GROUP BY departmentId
+        )
+
+#分组后统计该组内值的种类数
+COUNT(DISTINCT user_id)
+```
 
 ***
 
@@ -254,9 +327,29 @@ SUM()
 AVG()
 MAX()
 MIN()
+round(num,小数点后精度)
 ```
 
 
+
+## 自定义函数
+
+```sql
+CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
+BEGIN
+DECLARE M INT;
+    SET M=N-1;
+  RETURN (
+      # Write your MySQL query statement below.
+        SELECT(IFNULL(
+            (SELECT DISTINCT salary 
+            FROM Employee
+            ORDER BY salary DESC
+            LIMIT M, 1),NULL)
+        )
+  );
+END
+```
 
 
 
