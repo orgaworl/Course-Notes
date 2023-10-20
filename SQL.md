@@ -32,7 +32,6 @@ CREATE TABLE tbname
      ); 
 
 DROP TABLE tbname,... //删除表
-
 ALTER TABLE tbname
     ADD colname datatype [constraint]
     ADD [CONSTRAINT constname] <constraint>
@@ -85,9 +84,15 @@ ALTER TABLE tbname DROP INDEX idname;
 
 ```sql
 // 插入数据
+#先建立表,将子查询结果插入
 INSERT INTO table_name [(column1,column2,column3,...)]
     VALUES (value1,value2,value3,...);// 1)插入元组
     SELECT colname(s) FROM table1;    // 2)插入子查询结果
+
+#无预先建立表,执行时同时建立新表.
+SELECT column_name(s) //
+    INTO newtable [IN externaldb]
+    FROM table1;
 
 // 删除特定元组
 DELETE FROM tbname
@@ -99,9 +104,6 @@ UPDATE table_name
     WHERE condition;
 
 
-SELECT column_name(s) //
-    INTO newtable [IN externaldb]
-    FROM table1;
 
 TRUNCATE TABLE table_name;//仅清空表中数据,表仍存在
 ```
@@ -164,18 +166,22 @@ IS [NOT] NULL //空值
   外查询每次输入一个元组到内查询, 内查询根据条件判断输出/不输出元组.
 
 - 不相关子查询
-  先进行内查询, 再进行外查询
+  
+  - 不带EXISTS
+    先进行内查询, 再进行外查询
+  
+  - 带**Exist谓词**
 
-**Exist谓词**
+            带有EXIST 谓词的子查询不返回数据,当子查询结果不为空则返回True,否则FALSE
 
 
 
 #### 集合查询
 
 ```sql
-
-
-EXCEPT
+UNION     #并
+INTERSECT #交
+EXCEPT    #差
 ```
 
 
@@ -188,8 +194,8 @@ SELECT * FROM
     SELECT * FROM
     (
         SELECT * FROM()AS TC
-    )AS TB
-)AS TA
+    )AS TB(col1,)
+)AS TA(col1,)
 ```
 
 
@@ -236,7 +242,7 @@ UNION
 
 ```sql
 // 创建视图
-CREATE VIEW <view_name> AS 
+CREATE VIEW <view_name> [(col1,)] AS 
     SELECT column_name(s)
         FROM table_name
         WHERE condition
@@ -247,23 +253,68 @@ DROP VIEW <viewname>;
 
 //更新视图
 //视图不存储数据, 通过视图更新数据最终转化为对基本表的更新.
+INSERT INTO viewname(col1,)
+    VALUES(val1,)
+
+UPDATE viewname 
+    SET col=val
+    WHERE condition
+
+DELETE FROM viewname
+    WHERE condition
+
 
 ```
 
 ### 控制
 
 ```sql
-GRANT
+#将赋予其他用户某个表的多种操作权限.
+GRANT <OP1,> ON tbname TO username
+#禁止权限
+DENY <OP1,> ON tbname TO username
+#撤销用户的权限
+REVOKE <OP1,> ON tbname FROM username
 
-REVOKE
-
-DENY
-
+OP:
+#语句权限
+    CREATE DATABASE,CREATE TABLE,CREATE VIEW,CREATE DEFAULT,
+    CREATE RULE,CREATE FUNCTION,CREATE PROCEDURE,
+    BACKUP DATABASE,BACKUP LOG,
+#对象权限
+    #列
+    SELECT,UPDATE,
+    #表,视图,表值函数,
+    SELECT,UPDATE,INSERT,DELETE,REFERENCES,
+    #存储过程
+    EXECUTE,SYNONYM,
+    #标量函数
+    EXECUTE,REGERENCES,
 ```
 
 
 
+---
 
+## 事务
+
+数据库运行的最小的,不可分割的工作单位,要么全执行,要么全不执行.
+
+
+
+## 备份及恢复
+
+
+
+
+
+
+
+
+
+
+
+---
 
 ## TRICKS
 
@@ -311,11 +362,14 @@ COUNT(DISTINCT user_id)
 
 
 
+
+
 ## SQL自带函数
 
 ```sql
 GETDATE()
 YEAR()
+DATEDIFF(DAY,ProductTime,GETDATE()) #相差天数
 
 ```
 
@@ -354,3 +408,5 @@ END
 
 
 ***
+
+

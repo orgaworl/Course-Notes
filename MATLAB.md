@@ -1,3 +1,53 @@
+
+
+ML绘制图案例
+
+```matlab
+clear;
+close all;
+input=[338.,333.,328.,207.,226.,25.,179.,60.,208.,606.];
+output=[640.,633.,619.,393.,428.,27.,193.,66.,226.,1591.];
+f=@(w,b)sum((output-b-w*input).^2);
+w=linspace(-200,200,100);
+b=linspace(-20,20,100);
+lenw=length(w);
+lenb=length(b);
+w=repmat(w,lenb,1);w=w(:);
+b=repmat(b',1,lenw);b=b(:);
+L=zeros(length(w),1);
+for i=1:length(w)
+    L(i)=f(w(i),b(i));
+end
+x=w;
+y=b;
+z=L;
+xlin = linspace(min(x),max(x),100); %22指参与作图散点的个数
+ylin = linspace(min(y),max(y),100);  
+[X,Y] = meshgrid(xlin,ylin);
+Z = griddata(x,y,z,X,Y,'linear');
+%1. 散点图
+%figure,plot3(x,y,z,'.','MarkerSize',15) %nonuniform
+%2. 彩色图
+figure;
+mesh(X,Y,Z) %interpolated %目标图
+axis tight; hold on;
+%plot3(x,y,z,'.','MarkerSize',15)
+xlabel('w');ylabel('b');zlabel('L');
+%3. 伪彩色图
+figure,pcolor(X,Y,Z);shading interp
+%4. 等高线图
+figure,contourf(X,Y,Z)
+%5. 三维曲面
+figure,surf(X,Y,Z)
+xlabel('w');ylabel('b');zlabel('L');
+```
+
+
+
+
+
+
+
 ```matlab
 symbol=["bx-","c*-","y>-","x-","^-","+-"];
 Fontsize=32;
@@ -92,3 +142,5 @@ data(data<lower) = [];
 figure
 boxplot(data)
 ```
+
+
