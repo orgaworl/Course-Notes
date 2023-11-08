@@ -1,5 +1,21 @@
 # SQL
 
+## MS-SQL
+
+
+
+`sqlcmd -S localhost -U sa -P '<123123Aa!@>'`
+
+`select name from sys.databases`
+
+
+
+
+
+
+
+
+
 ## SQL语句
 
 ### 定义
@@ -42,7 +58,6 @@ ALTER TABLE tbname
     MODIFY COLUMN colname datatype [constraint];//My SQL / Oracle
 DESC tbname;   //查看表信息
 SHOW TABLES;  //显示所有表
-
 ```
 
 ```sql
@@ -52,10 +67,11 @@ constraint:
     NOT NULL,
     DEFAULT <val> FOR colname, //缺省值,插入时可不填值默认为该值.
     CHECK(<condition>),
+    IDENTITY(1,1), #从1开始递增1
+
 table constraint:
     PRIMARY KEY(colnames),
-    foreign key(colnames) references tbname(colnames),
-
+    [constraint consN]foreign key(colnames) references tbname(colnames),
 ```
 
 #### Index
@@ -76,8 +92,6 @@ DROP INDEX idname;
 
 //用于 MySQL 的 DROP INDEX 语法：
 ALTER TABLE tbname DROP INDEX idname;
-
-
 ```
 
 ### 操作
@@ -108,13 +122,11 @@ UPDATE table_name
 TRUNCATE TABLE table_name;//仅清空表中数据,表仍存在
 ```
 
-
-
 ### 查询
 
 ```sql
-SELECT [DISTINCT] 
-    <expression> AS alianame,...
+SELECT [DISTINCT] [TOP num]
+    <expression> AS alianame,...
     FROM tbname,...
     WHERE <condition>
     ORDER BY colname [ASC|DESC],...
@@ -131,8 +143,6 @@ expression:
 - 聚合函数
 
 - 列
-  
-  
 
 conditon:
 
@@ -155,8 +165,6 @@ IS [NOT] NULL //空值
 - \[ ]  : 匹配任一字符
 
 - \[^] : 不匹配任一字符
-  
-  
 
 #### 子查询
 
@@ -174,8 +182,6 @@ IS [NOT] NULL //空值
 
             带有EXIST 谓词的子查询不返回数据,当子查询结果不为空则返回True,否则FALSE
 
-
-
 #### 集合查询
 
 ```sql
@@ -183,8 +189,6 @@ UNION     #并
 INTERSECT #交
 EXCEPT    #差
 ```
-
-
 
 #### 派生表查询
 
@@ -197,10 +201,6 @@ SELECT * FROM
     )AS TB(col1,)
 )AS TA(col1,)
 ```
-
-
-
-
 
 ### 连接
 
@@ -231,7 +231,6 @@ UNION
         ｜ SELECT column_name(s) FROM table1
         ｜ UNION ALL
         ｜ SELECT column_name(s) FROM table2;
-
 ```
 
 <img title="" src="./pic/sql-join.png" alt="join" style="zoom:80%;">
@@ -262,8 +261,6 @@ UPDATE viewname
 
 DELETE FROM viewname
     WHERE condition
-
-
 ```
 
 ### 控制
@@ -292,27 +289,13 @@ OP:
     EXECUTE,REGERENCES,
 ```
 
-
-
 ---
 
 ## 事务
 
 数据库运行的最小的,不可分割的工作单位,要么全执行,要么全不执行.
 
-
-
 ## 备份及恢复
-
-
-
-
-
-
-
-
-
-
 
 ---
 
@@ -358,19 +341,12 @@ COUNT(DISTINCT user_id)
 
 ***
 
-
-
-
-
-
-
 ## SQL自带函数
 
 ```sql
 GETDATE()
 YEAR()
 DATEDIFF(DAY,ProductTime,GETDATE()) #相差天数
-
 ```
 
 聚合函数:
@@ -383,8 +359,6 @@ MAX()
 MIN()
 round(num,小数点后精度)
 ```
-
-
 
 ## 自定义函数
 
@@ -405,8 +379,4 @@ DECLARE M INT;
 END
 ```
 
-
-
 ***
-
-
