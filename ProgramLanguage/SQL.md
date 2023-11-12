@@ -2,19 +2,9 @@
 
 ## MS-SQL
 
-
-
 `sqlcmd -S localhost -U sa -P '<123123Aa!@>'`
 
 `select name from sys.databases`
-
-
-
-
-
-
-
-
 
 ## SQL语句
 
@@ -233,6 +223,43 @@ UNION
         ｜ SELECT column_name(s) FROM table2;
 ```
 
+
+
+```sql
+#笛卡尔积
+SELECT *
+FROM TABLEA,TABLEB
+
+# 内连接
+SELECT *
+FROM TABLEA,TABLEB
+WHERE condition
+
+#自然连接, 无重复列,要求重复列属性相同
+SELECT student.*, class.class_name
+FROM student inner join class
+ON student.class_id = class.class_id
+
+#左连接
+左连接以左表为基础，显示左表中的所有记录：
+显示的记录条数 = 左表中记录的条数
+再用左表中的指定列，来和右表中的指定列比较。满足，则输出值；不满足，则输出 NULL。
+
+# 右连接
+右连接与左连接正好相反，右连接以右表为基础，显示右表中的所有记录：
+显示的记录条数 = 右表中记录的条数
+再用右表中的指定列，来和左表中的指定列比较。满足，则输出值；不满足，则输出 NULL。
+
+#全连接
+全连接类似于左连接和右连接的综合：
+显示记录的条数 = 指定比较字段在两个表中的不同种类数
+对于空余字段，则显示 NULL 。也就是说，它能返回两个表中所有的关联信息，以及所有没有被关联到的信息。
+
+
+
+
+```
+
 <img title="" src="./pic/sql-join.png" alt="join" style="zoom:80%;">
 
 ### 视图
@@ -352,8 +379,8 @@ DATEDIFF(DAY,ProductTime,GETDATE()) #相差天数
 聚合函数:
 
 ```sql
-COUNT([DISTINCT|ALL] colname)
-SUM()
+COUNT([DISTINCT|ALL] colname) //COUNT(*)记录NULL, COUNT(col)记录NU
+SUM()// null自动忽略
 AVG()
 MAX()
 MIN()

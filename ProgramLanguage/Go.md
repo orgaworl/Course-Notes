@@ -64,8 +64,6 @@ fmt.Printf //生成格式化的字符串并写入标准输出
   //access
   varN.item
   ```
-  
-  
 
 - channel
 
@@ -82,10 +80,6 @@ fmt.Printf //生成格式化的字符串并写入标准输出
   var slice:=make([]type,len)
   //make([]T, length, capacity)
   ```
-  
-  
-  
-  
 
 - interface
 
@@ -116,8 +110,6 @@ fmt.Printf //生成格式化的字符串并写入标准输出
   
   Map 是引用类型，如果将一个 Map 传递给一个函数或赋值给另一个变量，它们都指向同一个底层数据结构，因此对 Map 的修改会影响到所有引用它的变量。
 
-
-
 **数据类型转换**
 
 ```go
@@ -128,10 +120,6 @@ type_name(expression)
 num,_ = strconv.Atoi(str)
 str := strconv.Itoa(num)
 ```
-
-
-
-
 
 ---
 
