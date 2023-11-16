@@ -1,18 +1,16 @@
-(function(){
-    'use strict';
-    var articleBox = $("div.article_content");
-    articleBox.removeAttr("style");
-    $(".hide-preCode-bt").parents(".author-pjw").show();
-    $(".hide-preCode-bt").parents("pre").removeClass("set-code-hide");
-    $(".hide-preCode-bt").parents(".hide-preCode-box").hide().remove();
-    $("#btn-readmore").parent().remove();
-    $("#side").remove();
-    $(".csdn-side-toolbar, .template-box, .blog-footer-bottom, .left-toolbox, .toolbar-inside").remove();
-    $(".comment-box, .recommend-box, .more-toolbox, .article-info-box, .column-group-item").remove();
-    $("aside, .tool-box, .recommend-nps-box, .skill-tree-box").remove();
-    $("main").css('display','content'); 
-    $("main").css('float','left'); 
-    $("#mainBox").width("100%");        
-    document.getElementsByTagName('body')[0].style.zoom=0.8;
-    window.print();
+(function doPrint(){      
+	'use strict';
+	var articleBox = $("div.article_content");
+	articleBox.removeAttr("style");
+	var head_str = "";       
+	var foot_str = "";   
+	var older = document.body.innerHTML;       
+	var title= document.getElementsByClassName('article-title-box')[0].innerHTML; 
+	var main_body = document.getElementsByClassName('article_content')[0].innerHTML;
+	document.body.innerHTML = head_str + title + main_body + foot_str;
+	$("#mainBox").width("100%");
+	document.getElementsByTagName('body')[0].style.zoom=0.8;     
+	window.print();
+	document.body.innerHTML = older;
+	return false;
 })();

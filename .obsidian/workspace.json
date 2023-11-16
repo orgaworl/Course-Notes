@@ -4,19 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "6aad6fbcd2eeb03f",
+        "id": "fd71bc2ab3a9b28c",
         "type": "tabs",
         "children": [
           {
-            "id": "06d7f7a997b95777",
+            "id": "db2ed7b4f59d7183",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "webSecurity.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -85,7 +81,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "webSecurity.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +97,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "webSecurity.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,9 +128,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "webSecurity.md"
-              }
+              "state": {}
             }
           }
         ]
@@ -156,8 +148,9 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "06d7f7a997b95777",
+  "active": "db2ed7b4f59d7183",
   "lastOpenFiles": [
+    "webSecurity.md",
     "README.md",
     "密码学.md",
     "密码协议.md",
@@ -167,7 +160,6 @@
     "PIC/sql-join.png",
     "Program/gdb.md",
     "Program",
-    "webSecurity.md",
     "ProgramLanguage/makefile.md",
     "ProgramLanguage/MATLAB.md",
     "ProgramLanguage/LATEX.md",
