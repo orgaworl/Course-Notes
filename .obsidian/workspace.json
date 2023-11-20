@@ -11,8 +11,12 @@
             "id": "db2ed7b4f59d7183",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "ProgramLanguage/JavaScript.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -81,6 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "ProgramLanguage/JavaScript.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,6 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "ProgramLanguage/JavaScript.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -128,15 +134,16 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "ProgramLanguage/JavaScript.md"
+              }
             }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -150,6 +157,16 @@
   },
   "active": "db2ed7b4f59d7183",
   "lastOpenFiles": [
+    "ProgramLanguage/Html.md",
+    "ProgramLanguage/Java.md",
+    "ProgramLanguage/JavaScript.md",
+    "ProgramLanguage/Json.md",
+    "ProgramLanguage/LATEX.md",
+    "ProgramLanguage/makefile.md",
+    "ProgramLanguage/shell.md",
+    "ProgramLanguage/Rust.md",
+    "ProgramLanguage/php.md",
+    "ProgramLanguage/CSS.md",
     "webSecurity.md",
     "README.md",
     "密码学.md",
@@ -160,14 +177,10 @@
     "PIC/sql-join.png",
     "Program/gdb.md",
     "Program",
-    "ProgramLanguage/makefile.md",
     "ProgramLanguage/MATLAB.md",
-    "ProgramLanguage/LATEX.md",
     "ProgramLanguage/CPP STL.md",
     "ProgramLanguage/json.md",
     "ProgramLanguage/SQL.md",
-    "ProgramLanguage/shell.md",
-    "ProgramLanguage/rust.md",
     "ProgramLanguage/scapy.md",
     "ProgramLanguage",
     "新建 Markdown document.md"
