@@ -223,8 +223,6 @@ UNION
         ｜ SELECT column_name(s) FROM table2;
 ```
 
-
-
 ```sql
 #笛卡尔积
 SELECT *
@@ -254,13 +252,9 @@ ON student.class_id = class.class_id
 全连接类似于左连接和右连接的综合：
 显示记录的条数 = 指定比较字段在两个表中的不同种类数
 对于空余字段，则显示 NULL 。也就是说，它能返回两个表中所有的关联信息，以及所有没有被关联到的信息。
-
-
-
-
 ```
 
-<img title="" src="./pic/sql-join.png" alt="join" style="zoom:80%;">
+<img title="" src="../picture/sql-join.png" alt="join" style="zoom:80%;">
 
 ### 视图
 
