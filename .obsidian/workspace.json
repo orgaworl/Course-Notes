@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ProgramLanguage/JavaScript.md",
+                "file": "CTF/SQL注入.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "ProgramLanguage/JavaScript.md",
+                "file": "CTF/SQL注入.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "ProgramLanguage/JavaScript.md",
+                "file": "CTF/SQL注入.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -135,7 +135,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "ProgramLanguage/JavaScript.md"
+                "file": "CTF/SQL注入.md"
               }
             }
           }
@@ -155,11 +155,18 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "db2ed7b4f59d7183",
+  "active": "3a7a3da265165098",
   "lastOpenFiles": [
+    "机器学习/ML.md",
+    "README.md",
+    "CTF/SQL注入.md",
+    "ProgramLanguage/css.md",
+    "CTF",
+    "ProgramLanguage/java.md",
+    "ProgramLanguage/Go.md",
+    "ProgramLanguage/JavaScript.md",
     "ProgramLanguage/Html.md",
     "ProgramLanguage/Java.md",
-    "ProgramLanguage/JavaScript.md",
     "ProgramLanguage/Json.md",
     "ProgramLanguage/LATEX.md",
     "ProgramLanguage/makefile.md",
@@ -168,7 +175,6 @@
     "ProgramLanguage/php.md",
     "ProgramLanguage/CSS.md",
     "webSecurity.md",
-    "README.md",
     "密码学.md",
     "密码协议.md",
     "机器学习/机器学习.md",
@@ -180,9 +186,6 @@
     "ProgramLanguage/MATLAB.md",
     "ProgramLanguage/CPP STL.md",
     "ProgramLanguage/json.md",
-    "ProgramLanguage/SQL.md",
-    "ProgramLanguage/scapy.md",
-    "ProgramLanguage",
-    "新建 Markdown document.md"
+    "ProgramLanguage"
   ]
 }
