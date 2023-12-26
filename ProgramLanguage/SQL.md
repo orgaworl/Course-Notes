@@ -1,11 +1,5 @@
 # SQL
 
-## MS-SQL
-
-`sqlcmd -S localhost -U sa -P '<123123Aa!@>'`
-
-`select name from sys.databases`
-
 ## SQL语句
 
 ### 定义
@@ -16,10 +10,10 @@
 CREATE DATABASE dbname
     ON(content)
     LOG ON(content);
+DROP DATABASE dbname;
 ALTER DATABASE dbname
     MODIFY FILE();
     ADD LOG FILE();
-DROP DATABASE dbname;
 USE dbname;
 SHOW dbname;
 SHOW DATABASES;
@@ -30,22 +24,23 @@ SHOW DATABASES;
 ```sql
 CREATE TABLE tbname
      (
-     column_name1 datatype(size)[constraint],
+     column_name1 datat_ype(size)[constraint],
      column_name2 data_type(size)[constraint],
      column_name3 data_type(size)[constraint],
      ....
      [,table constraint]
      ); 
-
 DROP TABLE tbname,... //删除表
 ALTER TABLE tbname
-    ADD colname datatype [constraint]
-    ADD [CONSTRAINT constname] <constraint>
-    WITH NOCHECK//原数据不做要求,新数据受约束限制.
-    DROP COLUMN <colname> <datatype>
-    DROP CONSTRAINT <consname>
-    ALTER COLUMN colname datatype [constraint]; //SQL Server / MS Access
-    MODIFY COLUMN colname datatype [constraint];//My SQL / Oracle
+    ADD [COLUMN]      colname datatype [constraint]
+    ADD [CONSTRAINT constname] <constraint> (col1,...)
+    WITH NOCHECK  //原数据不做要求,新数据受约束限制.
+    DROP [COLUMN]     colname
+    DROP [CONSTRAINT] constname
+    ALTER  [COLUMN]   colname datatype [constraint];//SQLServer/MS Access
+    MODIFY [COLUMN]   colname datatype [constraint];//MySQL/Oracle
+    RENAME [COLUMN]   colname1 to name2
+
 DESC tbname;   //查看表信息
 SHOW TABLES;  //显示所有表
 ```
@@ -55,33 +50,35 @@ constraint:
     UNIQUE,
     PRIMARY KEY,
     NOT NULL,
-    DEFAULT <val> FOR colname, //缺省值,插入时可不填值默认为该值.
+    DEFAULT <val>, //缺省值,插入时可不填值默认为该值.
     CHECK(<condition>),
     IDENTITY(1,1), #从1开始递增1
 
 table constraint:
     PRIMARY KEY(colnames),
     [constraint consN]foreign key(colnames) references tbname(colnames),
+    DEFAULT <val> FOR colname,    
+    CHECK(condition),//对整个表做约束
 ```
 
-#### Index
+#### 索引 Index
 
 ```sql
-CREATE
-    [UNIQUE][CLUSTERED|NONCLUSTERED]
+CREATE 
+    [CLUSTERED|NONCLUSTERED][UNIQUE]
     INDEX idname
     ON tbname(colname[ASC|DESC],...);
-//用于 MS Access 的 DROP INDEX 语法：
-DROP INDEX idname ON tbname;
-
 //用于 MS SQL Server 的 DROP INDEX 语法：
 DROP INDEX tbname.idname;
 
-//用于 DB2/Oracle 的 DROP INDEX 语法：
-DROP INDEX idname;
-
 //用于 MySQL 的 DROP INDEX 语法：
 ALTER TABLE tbname DROP INDEX idname;
+
+//用于 DB2/Oracle 的 DROP INDEX 语法：
+DROP INDEX idname;
+//用于 MS Access 的 DROP INDEX 语法：
+DROP INDEX idname ON tbname;
+
 ```
 
 ### 操作
@@ -107,9 +104,8 @@ UPDATE table_name
     SET column1 = value1, column2 = value2, ...
     WHERE condition;
 
-
-
 TRUNCATE TABLE table_name;//仅清空表中数据,表仍存在
+
 ```
 
 ### 查询
@@ -120,7 +116,7 @@ SELECT [DISTINCT] [TOP num]
     FROM tbname,...
     WHERE <condition>
     ORDER BY colname [ASC|DESC],...
-    GROUP BY colname HAVING <condition>
+    GROUP BY colname HAVING <condition> //having筛选分组后各组内的数据
     TOP <number|percent> //SQL server/MS Acess
         WITH TIES        //返回和最后一元组相同的连续排列的多个元组
     LIMIT num1 OFFSET num2         //MySql
@@ -143,7 +139,7 @@ IS [NOT] NULL //空值
 [NOT] LIKE '<匹配串>' [ESCAPE '<转义符>'] //字符匹配
 [NOT] IN   (ele1,ele2,...)               //确定集合
 [NOT] BETWEEN <va> AND <vb>               //连续区间
-#BETWEEN CAST('1970-01-01' AS DATETIME ) AND CAST('1970-12-31' AS DATETIME)
+BETWEEN CAST('1970-01-01' AS DATETIME ) AND CAST('1970-12-31' AS DATETIME)
 ```
 
 通配符:
@@ -198,7 +194,7 @@ SELECT * FROM
 JOIN
 ｜ 把来自两个或多个表的行结合起来
     类型
-        INNER JOIN:(默认使用内连接);如果表中有至少一个匹配，则返回行;  1)等值连接2)自连接;
+        INNER JOIN:(默认内连接);如果表中有至少一个匹配，则返回行;1)等值连接2)自连接;
         LEFT JOIN:   左外连接; 使右表中没有匹配，也从左表返回所有的行.
         RIGHT JOIN:  右外连接; 即使左表中没有匹配，也从右表返回所有的行.
         FULL JOIN:   全外连接; 只要其中一个表中存在匹配，则返回行.
@@ -276,12 +272,13 @@ DROP VIEW <viewname>;
 INSERT INTO viewname(col1,)
     VALUES(val1,)
 
+DELETE FROM viewname
+    WHERE condition
+
 UPDATE viewname 
     SET col=val
     WHERE condition
 
-DELETE FROM viewname
-    WHERE condition
 ```
 
 ### 控制
@@ -360,6 +357,12 @@ COUNT(DISTINCT user_id)
 
 ## SQL数据类型
 
+
+
+
+
+
+
 ***
 
 ## SQL自带函数
@@ -400,4 +403,10 @@ DECLARE M INT;
 END
 ```
 
-***
+---
+
+## MS-SQL
+
+`sqlcmd -S localhost -U sa -P '<123123Aa!@>'`
+
+`select name from sys.databases`

@@ -63,8 +63,6 @@ typeof varN
 
 **类型转换**
 
-
-
 ## 2. 变量与常量及变量作用域
 
 ```javascript
