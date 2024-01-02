@@ -12,7 +12,6 @@ sqlmap -u http://example.com -D 数据库名 -T 表名 --columns
 sqlmap -u http://example.com -D 数据库名 -T 表名 --C 列名 --dump
 # 跑指定库中指定表中指定列中的值
 
-
 sqlmap -u http://example.com --dump
 # 全输出
 ```
@@ -31,3 +30,9 @@ sqlmap -u
     ②sqlmap -r filename --dbs -p user
     ｜ -p为指定漏洞点,后跟具体发现漏洞点
     ③一致.替换-u为-r
+
+
+
+```shell
+
+```
