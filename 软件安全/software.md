@@ -16,14 +16,25 @@ suid,sgid,sticky
 
 1. suid:是针对二进制可执行程序上的，对目录设置无效. 
    作用：让普通用户可以以root(或其他)的用户角色运行只有root才能运行的程序或命令. 
-   suid数字表示为4, 在文件所有者权限的第三位为小写的s，就代表拥有suid属性
+   在文件所有者权限的第三位为小写的s，就代表拥有suid属性.
+   
+   大写的 `S` 发生于当设置了 `setuid` 或 `setgid` 位、但没有设置可执行位 `x` 时。
 
 2. sgid:既可以针对文件也可以针对目录设置. 
+   
+   程序**以拥有该文件的组运行**.
+   
    作用：在设置了sgid权限的目录下建立文件时，新创建的文件的所属组会继承上级目录的所属组. 
-   sgid数字表示为2，在文件所属组权限的第三位为小写的s，就代表拥有sgid属性
+   在文件所属组权限的第三位为小写的`s`，就代表拥有sgid属性.
 
 3. sticky:设置sticky可以将自己的文件保护起来. 
-   sticky数字表示为1,在其他用户权限位的第三位为小写t.
+   在其他用户权限位的第三位为小写t.
+   
+   ```C
+   drwxrwxrwt  33 root root  1000  1月10日 15:15 tmp
+   ```
+   
+   *粘滞位权限只能针对⽬录设置，对于⽂件⽆效*
    
    **当一个目录被设置为"粘滞位"(用chmod +t),则该目录下的文件只能由  
    一、超级管理员删除  
@@ -32,13 +43,26 @@ suid,sgid,sticky
 
 ### **运行权限**
 
-uid
+uid euid setuid() seteuid()
 
-euid
+linux 下有 4 种 uid 如下
 
-setuid()
+- real user id. 表示进程的实际执行者, 只有 root 才能更改 real uid.
 
-seteuid()
+- effective user id. 用于检测进程在执行时所获得的访问文件的权限.
+
+- saved user id. 用于保存 euid, 以便当 euid 设置成其他 id 时再设置为原值.
+
+- File System UID. 只用于对文件系统的访问权限控制.
+
+相应的,linux 会提供系统调用以修改进程的 uid.
+
+1. setuid(uid).
+   首先请求内核将本进程的 real uid,euid 和 saved uid 都设置成函数指定的 uid, 若权限不够则只修改 euid, 仍不行则调用失败.
+
+2. seteuid(uid).
+   
+   仅请求内核将本进程的 euid 设置成函数指定的 uid.
 
 ### **目录权限与文件权限**
 
@@ -47,6 +71,8 @@ seteuid()
 - 执行（**x**/1）：对文件而言，具有执行文件的权限；对于目录而言，具有进入目录的权限
 
 ## 1.2 系统目录结构
+
+---
 
 ## 2. 硬件架构
 
@@ -64,6 +90,7 @@ EDI：一般用作目标变址（Destinatin Index）
 ```
 
 <img title="" src="../picture/x86.webp" alt="x86" data-align="left" width="221">
+
 **x64**
 
 <img title="" src="../picture/x64.webp" alt="x64" data-align="left" width="257">
@@ -87,17 +114,31 @@ EDI：一般用作目标变址（Destinatin Index）
 
 <img title="" src="../picture/memStruct.webp" alt="x64" data-align="left" width="272">
 
-### ELF文件(in Linux)
+--- 
 
-### 内存地址对齐
+## 内存地址对齐
 
-## WEB安全
+### 1. 结构体大小对齐
 
-## 软件安全设计与开发
+在没有#pragma pack 宏的声明下，遵循下面三个原则：
 
-## 自动化代码分析
+1、第一个成员的首地址为0.
 
-## 渗透测试
+2、每个成员的首地址是自身大小的整数倍.
+
+3、结构体的总大小，为其成员中所含最大类型的整数倍.
+
+### 2. 变量首地址对齐
+
+存放数据的首地址是某个数（4，8或32）的倍数。
+
+### 3. malloc申请对齐
+
+32bit OS malloc最小长度16Byte.
+
+32bit OS malloc首地址8Byte对齐
+
+---
 
 ## 实验总结
 
