@@ -19,13 +19,15 @@
 ```php
 bool define (
     string $name , // name：必选参数，常量名称，即标志符。
-    mixed $value , // value：必选参数，常量的
-    [bool $case_insensitive = false ]
-    //可选参数，如果设置为 TRUE，该常量则大小写不敏感，默认是大小写敏感的 
+    mixed $value , // value：必选参数，常量的值
 )
 ```
 
+常量是全局的, 常量使用无需使用`$`.
+
 ## 2. 数据类型
+
+### 一般
 
 - String（字符串）
 
@@ -35,27 +37,6 @@ bool define (
 
 - Boolean（布尔型）
 
-- Array（数组）
-  
-  ```php
-  $cars=array("Volvo","BMW","Toyota");
-  ```
-
-- Object（对象）
-  
-  ```php
-  class Car
-  {
-    var $color;
-    function __construct($color="green") {
-      $this->color = $color;
-    }
-    function what_color() {
-      return $this->color;
-    }
-  }
-  ```
-
 - NULL（空值）
   
   NULL 值表示变量没有值,可以通过设置变量值为 NULL 来清空变量数据：
@@ -64,6 +45,43 @@ bool define (
   
   特殊变量，保存了到外部资源的一个引用
 
+### Array（数组）
+
+分类
+
+- 数值数组: key为数字
+
+- 关联数组: key自定义
+
+- 多维数组
+
+```php
+// 声明
+$cars=array("Volvo","BMW","Toyota");
+$age=array("Peter"=>"35","Ben"=>"37","Joe"=>"43");
+//访问
+$obj[$ord]
+age['Peter']="35";
+
+//函数调用
+count($arrayVar)
+```
+
+### Object（对象）
+
+```php
+class Car
+{
+  var $color;
+  function __construct($color="green") {
+    $this->color = $color;
+  }
+  function what_color() {
+    return $this->color;
+  }
+}
+```
+
 ## 3. 运算符号
 
 比较
@@ -71,9 +89,82 @@ bool define (
 - 松散比较：使用两个等号 == 比较，只比较值，不比较类型。
 - 严格比较：用三个等号 === 比较，除了比较值，也比较类型。
 
+字符串运算
+
+```php
+. //字符串连接符
+echo $str1 . "" . $str2;
+strlen($str)//字符串长度.
+strpos($str,$subStr)//查找第一个匹配字符串位置 
+```
+
+算术运算
+
+```php
+~x //取反
+```
+
+逻辑运算
+
+```php
+and or xor && || !
+```
+
+数组运算
+
+```php
++   // 集合合并
+==  // 两数组具有相同键值对
+=== //具有相同键值对且顺序类型相同
+```
+
+三元
+
+```php
+expr1?(expr2):(expr3)
+```
+
 ## 4. 流程控制
 
+```php
+if(){}  elseif(){}  else{}
+
+switch(expr){
+    case val1:
+        //block1;
+        break;
+    default:
+        //block
+}
+
+while(){}
+do{}while();
+for(initVal;condition;append){}
+foreach($array as $value){}
+
+foreach($array as $key=>$valu){}
+```
+
 ## 5. 函数
+
+函数声明
+
+```php
+function funcName($para1)
+{
+    return $result;
+}
+```
+
+变量函数
+
+将一个变量名作为函数名来调用的函数. 同样可调用一个对象的方法.
+
+```php
+function func(){return 1;}
+$funcName="func"
+$funcName();
+```
 
 ## 6. 变量作用域
 
@@ -125,8 +216,19 @@ echo "str1","str2","str3"; //可输出多个字符串
 print "str"; //只输出一个字符串.
 ```
 
-## 并发
+## 8. 类与对象
 
-## 项目管理
+```php
+class Site{
+    var $var1;
+    var $var2;
 
-## 错误处理
+    function func1(){
+    return $val;
+    }
+}
+$item=new Site;
+$item->func1();
+```
+
+## 9. 自带函数实现
