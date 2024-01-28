@@ -1,8 +1,7 @@
-
+检查
 
 ```shell
-examine命令: x/<n/f/u>  <addr>
-#查看内存地址中的值
+examine命令: x/<n/f/u>  <addr> #查看内存地址中的值
 n:是正整数，表示需要显示的内存单元的个数，即从当前地址向后显示n个内存单元的内容，一个内存单元的大小由第三个参数u定义。
 f:表示addr指向的内存内容的输出格式，s对应输出字符串，此处需特别注意输出整型数据的格式：
     x 按十六进制格式显示变量。
@@ -17,7 +16,7 @@ u:就是指以多少个字节作为一个内存单元,可以写数字形式或�
 <addr>:表示内存地址。
 ```
 
-
+运行
 
 ```shell
 run/r          #运行程序，当遇到断点后，程序会在断点处停止运行，等待用户输入下一步的命令。
@@ -31,18 +30,23 @@ call    #函数(参数)：调用程序中可见的函数，并传递“参数”
 quit/q #退出gdb
 ```
 
+断点break (b)
+
 ```shell
-break n （简写b n）:在第n行处设置断点
-（可以带上代码路径和代码名称： b OAGUPDATE.cpp:578）
+break n        #在第n行处设置断点
+break OAGUPDATE.cpp:578
+break func    #在函数func()的入口处设置断点，
+break addr    # 在某条指令处停止
 b fn1 if a＞b：条件断点设置
-break func（break缩写为b）：在函数func()的入口处设置断点，如：break cb_button
-delete 断点号n：删除第n个断点
-disable 断点号n：暂停第n个断点
-enable 断点号n：开启第n个断点
-clear 行号n：清除第n行的断点
-info b （info breakpoints） ：显示当前程序的断点设置情况
-delete breakpoints：清除所有断点：
+delete n  # 删除第n个断点
+disable n # 暂停第n个断点
+enable n  # 开启第n个断点
+clear n   # 清除第n行的断点
+info  b （info breakpoints）#显示当前程序的断点设置情况
+delete breakpoints  # 清除所有断点：
 ```
+
+查看
 
 ```shell
 print/p # 表达式
@@ -50,7 +54,13 @@ display 表达式 #在单步运行时有用，使用display命令设置一个表
 watch 表达式 #设置一个监视点，一旦被监视的“表达式”的值改变，gdb将强行终止正在被调试的程序。
 whatis #查询变量或函数
 info function #查询函数
-扩展info locals # 显示当前堆栈页的所有变量
+info locals # 显示当前堆栈页的所有变量
+```
+
+修改
+
+```shell
+set $reg=value
 ```
 
 
