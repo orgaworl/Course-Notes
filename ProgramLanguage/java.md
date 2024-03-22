@@ -13,6 +13,8 @@ final type varN=val;
 
 ## 2. 数据类型
 
+### 2.1 简单数据类型
+
 - 数值
   
   byte, short, int, long
@@ -40,16 +42,29 @@ final type varN=val;
   byte,short,char—> int —> long—> float —> double
   ```
 
+### 2.2 数据结构
+
+#### 数组
+
+```java
+// 静态数组
+int[]arr=new int[]{it1,it2,...};
+//动态数组
+int[]arr=new int[10]
+```
+
 ## 3. 运算符号
 
 ```java
-// 移位运算符
+// 1.移位运算符
 // A 的值为 60
 <<     按位左移运算符。左操作数按位左移右操作数指定的位数。    A << 2得到240，即 1111 0000
 >>     按位右移运算符。左操作数按位右移右操作数指定的位数。    A >> 2得到15即 1111
 >>>     按位右移补零操作符,移动得到的空位以零填充。    A>>>2得到15即0000 1111
-//条件运算符
+//2.条件运算符
 (expression) ? value if true : value if false
+
+//3. 字符串运算
 ```
 
 ## 4. 流程控制
@@ -67,13 +82,22 @@ for(声明语句 : 表达式)
 
 switch 语句中的变量类型可以是： byte、short、int 或者 char。
 
-## 5. 函数
+## 5. 方法
 
 ```java
-
+public class cls
+{
+    public static int func()
+    {
+    }
+}
 ```
 
+**参数传递机制**
 
+- 浅拷贝传递
+
+- 地址传递(引用)
 
 ## 6. 变量作用域
 
