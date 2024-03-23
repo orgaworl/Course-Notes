@@ -38,8 +38,7 @@ add_executable(main ${SRC_LIST})
 ```
 
 - 分文件夹编写
-```
-```text
+```cmake
 cmake_minimum_required (VERSION 2.8)
 project (demo)
 include_directories (test_func test_func1)
