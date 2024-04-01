@@ -12,7 +12,8 @@ f:表示addr指向的内存内容的输出格式，s对应输出字符串，此�
     a 按十六进制格式显示变量。
     c 按字符格式显示变量。
     f 按浮点数格式显示变量。
-u:就是指以多少个字节作为一个内存单元,可以写数字形式或字符形式,b=1 byte, h=2 bytes,w=4 bytes,g=8 bytes.
+u:就是指以多少个字节作为一个内存单元,可以写数字形式或字符形式
+b=1 byte, h=2 bytes,w=4 bytes,g=8 bytes.
 <addr>:表示内存地址。
 ```
 
@@ -62,8 +63,6 @@ info locals # 显示当前堆栈页的所有变量
 ```shell
 set $reg=value
 ```
-
-
 
 ```shell
 where/bt ：当前运行的堆栈列表；
