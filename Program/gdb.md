@@ -1,3 +1,28 @@
+# P
+
+```shell
+
+set disassembly-flavor intel
+disas main
+
+
+break *0x0000555555555298
+run
+set ((char*)answer)[0]=65
+p answer[0]
+set ((char*)answer)[1]=65
+set $var1=$var2
+continue
+
+65 67 67 66 68 65 65 68 66 66 
+```
+
+
+
+
+
+# Syntax
+
 检查
 
 ```shell
@@ -62,6 +87,8 @@ info locals # 显示当前堆栈页的所有变量
 
 ```shell
 set $reg=value
+
+set ((char*)&var)[i]=val
 ```
 
 ```shell

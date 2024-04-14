@@ -1,14 +1,25 @@
+---
+tags:
+  - code
+  - cpp
+---
+
 ## define
 
 ```cpp
 #define flag1
 
-
 #ifdef flag1
 #endif
 
-
 #typedef uint8_t type1
+
+enum 枚举名{ 
+     标识符[=整型常数], 
+     标识符[=整型常数], 
+... 
+    标识符[=整型常数]
+} 枚举变量;
 
 ```
 

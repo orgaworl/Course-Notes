@@ -74,6 +74,9 @@ else()
     message(STATUS "Currently is not in debug mode")    
 endif()
 
+//提示
+message("str")
+
 
 // 添加编译选项
 add_compile_options(-std=c++11 -Wall) 
