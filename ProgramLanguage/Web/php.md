@@ -11,6 +11,7 @@
 - 弱类型, 自动判断数据类型
 
 ```php
+$cars=1
 
 ```
 
@@ -26,6 +27,10 @@ bool define (
 常量是全局的, 常量使用无需使用`$`.
 
 ## 2. 数据类型
+
+**类型转换**
+
+`$new=(type)$old`
 
 ### 一般
 
@@ -45,6 +50,7 @@ bool define (
   
   特殊变量，保存了到外部资源的一个引用
 
+
 ### Array（数组）
 
 分类
@@ -59,6 +65,14 @@ bool define (
 // 声明
 $cars=array("Volvo","BMW","Toyota");
 $age=array("Peter"=>"35","Ben"=>"37","Joe"=>"43");
+
+$arr=[val1,val2,];
+
+$arr=[
+$key1=>$val1,
+$key2=>$val2,
+];
+
 //访问
 $obj[$ord]
 age['Peter']="35";
@@ -84,12 +98,12 @@ class Car
 
 ## 3. 运算符号
 
-比较
+**比较**
 
 - 松散比较：使用两个等号 == 比较，只比较值，不比较类型。
 - 严格比较：用三个等号 === 比较，除了比较值，也比较类型。
 
-字符串运算
+**字符串运算**
 
 ```php
 . //字符串连接符
@@ -98,19 +112,19 @@ strlen($str)//字符串长度.
 strpos($str,$subStr)//查找第一个匹配字符串位置 
 ```
 
-算术运算
+**算术运算**
 
 ```php
 ~x //取反
 ```
 
-逻辑运算
+**逻辑运算**
 
 ```php
 and or xor && || !
 ```
 
-数组运算
+**数组运算**
 
 ```php
 +   // 集合合并
@@ -118,7 +132,7 @@ and or xor && || !
 === //具有相同键值对且顺序类型相同
 ```
 
-三元
+**三元运算**
 
 ```php
 expr1?(expr2):(expr3)
@@ -131,23 +145,25 @@ if(){}  elseif(){}  else{}
 
 switch(expr){
     case val1:
-        //block1;
+        //block1
         break;
     default:
-        //block
+        //blockd
 }
 
 while(){}
 do{}while();
 for(initVal;condition;append){}
+
 foreach($array as $value){}
 
 foreach($array as $key=>$valu){}
 ```
 
+
 ## 5. 函数
 
-函数声明
+**函数声明**
 
 ```php
 function funcName($para1)
@@ -156,7 +172,7 @@ function funcName($para1)
 }
 ```
 
-变量函数
+**变量函数**
 
 将一个变量名作为函数名来调用的函数. 同样可调用一个对象的方法.
 
@@ -166,9 +182,10 @@ $funcName="func"
 $funcName();
 ```
 
+---
 ## 6. 变量作用域
 
-作用域种类
+**作用域种类**
 
 - local
   
@@ -207,6 +224,13 @@ $funcName();
   
   参数是在参数列表中声明的，作为函数声明的一部分.
 
+**命名空间**
+
+```php
+namespace NS_name;
+```
+
+
 ## 7. 文件与I/O
 
 输出
@@ -216,19 +240,42 @@ echo "str1","str2","str3"; //可输出多个字符串
 print "str"; //只输出一个字符串.
 ```
 
+---
 ## 8. 类与对象
 
 ```php
 class Site{
+	const VarName1 = Value1;
+	const VarName2 = Value2;
     var $var1;
     var $var2;
+    public $var3;
+    protected $var4;
 
-    function func1(){
-    return $val;
+    public function func1(){
+	    return $this->val;
     }
 }
 $item=new Site;
 $item->func1();
 ```
 
-## 9. 自带函数实现
+
+---
+## 9. 限定符
+
+
+## 10. 文件与I/O
+
+
+
+## 11. 错误处理
+
+```php
+try{
+	//Do
+}catch(Exception $e){
+	//Do
+}
+
+```
