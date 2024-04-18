@@ -1,7 +1,9 @@
 ---
 tags:
+  - 编译
+  - 跨平台
 ---
-
+---
 ## 0. 例
 
 ```shell
@@ -102,7 +104,7 @@ ${} //
 	- func1.h
 	- func2.h
 - src
-	- CMakeLists.txt
+	- CMakeLists.txt(可选)
 	- main.cpp
 	- func1.cpp
 	- func2.cpp
