@@ -105,7 +105,7 @@ vector<vector<int>> mat(100, vector<int> (666, -1))
 .end()
 ```
 
-vector<vector<int> > name; **>>之间要加空格**
+`vector<vector<int> > name;`  **>>之间要加空格**
 
 **元素访问**
 
@@ -324,12 +324,34 @@ string str6(str2, 2); //结果为"3456789"，截取第三个元素（2对应第�
 
 ### 1.7 map
 
+
+
+
 ### 1.8 pair
 
+
+
+
+
+---
 ## 2. Algorithms
 
----
 
+
+
+
+
+---
 ## 3. Iterators
 
+
+
+
+
+
+
+
+
+
 ---
+author email: orgaworl@outlook.com

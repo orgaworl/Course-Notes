@@ -44,13 +44,13 @@ C++面向对象的三大特性为：封装、继承、多态
 
     -   访问权限
         -   public 公共权限
-            -   类内可以访问 类外可以访问  
+            -   类内可以访问 类外可以访问
 
         -   protected 保护权限
-            -   类内可以访问 类外不可以访问  
+            -   类内可以访问 类外不可以访问
 
         -   private 私有权限
-            -   类内可以访问 类外不可以访问  
+            -   类内可以访问 类外不可以访问
 
     -   struct 和 class 的区别  
          默认的访问权限不同
@@ -292,30 +292,28 @@ C++面向对象的三大特性为：封装、继承、多态
 ---
 ## 1.4 运算符重载
 
-
 -   运算符重载  
      实现自定义类型的运算
-    大部分返回值为引用是为了实现链式  
-     ​ 编程,持续对一个数据进行操作
+    大部分返回值为引用是为了实现链式编程,持续对一个数据进行操作
 -   加法运算符
     -   通过成员函数重载
 		``` cpp
            Person operator+(Person& p) //this 为前,传入为右  
             {  
-            Person temp;  
-            temp.m_A = this->m_A + p.m_A;  
-            temp.m_B = this->m_B + p.m_B;  
-            return temp;  
+	            Person temp;  
+	            temp.m_A = this->m_A + p.m_A;
+	            temp.m_B = this->m_B + p.m_B;
+	            return temp;
             }
             Person p3=p1+p2;
 		```
     -   通过全局函数重载
         ```cpp
 		    Person operator+(const Person& p1, const Person& p2) {  
-            Person temp(0, 0);  
-            temp.m_A = p1.m_A + p2.m_A;  
-            temp.m_B = p1.m_B + p2.m_B;  
-            return temp;  
+	            Person temp(0, 0);  
+	            temp.m_A = p1.m_A + p2.m_A;  
+	            temp.m_B = p1.m_B + p2.m_B;  
+	            return temp;  
             }
         ```
 -   左移运算符<<
@@ -325,8 +323,8 @@ C++面向对象的三大特性为：封装、继承、多态
 	        ```cpp
             ​ostream& operator<<(ostream& out, Person& p)  
             ​ {  
-            out << "a:" << p.m_A << " b:" << p.m_B;  
-            return out;  
+	            out << "a:" << p.m_A << " b:" << p.m_B;  
+	            return out;  
             }  
             //引用特性使其可以不用 cout,而用其他名称如 out
 			```
@@ -567,3 +565,4 @@ C++面向对象的三大特性为：封装、继承、多态
         -   父类作总，多个子类作分功能
 
 ---
+author email: orgaworl@outlook.com

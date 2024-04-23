@@ -1,5 +1,5 @@
 # Course-Notes
 
-This is a repositories in personnal use.
+Just a repositories for personal use.
 
 orgaworl@outlook.com

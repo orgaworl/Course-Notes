@@ -101,3 +101,7 @@ set args 参数:指定运行时的参数
 show args：查看设置好的参数
 info program： 来查看程序的是否在运行，进程号，被暂停的原因。
 ```
+
+
+---
+author email: orgaworl@outlook.com

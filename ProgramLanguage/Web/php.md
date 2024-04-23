@@ -12,7 +12,6 @@
 
 ```php
 $cars=1
-
 ```
 
 **常量**
@@ -49,7 +48,6 @@ bool define (
 - Resource（资源类型）
   
   特殊变量，保存了到外部资源的一个引用
-
 
 ### Array（数组）
 
@@ -160,7 +158,6 @@ foreach($array as $value){}
 foreach($array as $key=>$valu){}
 ```
 
-
 ## 5. 函数
 
 **函数声明**
@@ -183,6 +180,7 @@ $funcName();
 ```
 
 ---
+
 ## 6. 变量作用域
 
 **作用域种类**
@@ -230,7 +228,6 @@ $funcName();
 namespace NS_name;
 ```
 
-
 ## 7. 文件与I/O
 
 输出
@@ -241,41 +238,42 @@ print "str"; //只输出一个字符串.
 ```
 
 ---
+
 ## 8. 类与对象
 
 ```php
 class Site{
-	const VarName1 = Value1;
-	const VarName2 = Value2;
+    const VarName1 = Value1;
+    const VarName2 = Value2;
     var $var1;
     var $var2;
     public $var3;
     protected $var4;
 
     public function func1(){
-	    return $this->val;
+        return $this->val;
     }
 }
 $item=new Site;
 $item->func1();
 ```
 
-
 ---
+
 ## 9. 限定符
 
-
 ## 10. 文件与I/O
-
-
 
 ## 11. 错误处理
 
 ```php
 try{
-	//Do
+    //Do
 }catch(Exception $e){
-	//Do
+    //Do
 }
-
 ```
+
+---
+
+author email: orgaworl@outlook.com

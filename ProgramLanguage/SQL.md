@@ -415,3 +415,7 @@ END
 `sqlcmd -S localhost -U sa -P '<123123Aa!@>'`
 
 `select name from sys.databases`
+
+
+---
+author email: orgaworl@outlook.com

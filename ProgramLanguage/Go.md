@@ -274,3 +274,6 @@ func function_name( [parameter list] ) [return_types] {
   getSquareRoot := func(x float64) float64 {return math.Sqrt(x)}
   getSquareRoot(9)
   ```
+
+---
+author email: orgaworl@outlook.com

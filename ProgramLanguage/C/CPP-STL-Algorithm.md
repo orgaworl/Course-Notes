@@ -59,3 +59,6 @@ set_difference(iterator beg1,iterator end1,
 ```
 
 
+---
+
+author email: orgaworl@outlook.com

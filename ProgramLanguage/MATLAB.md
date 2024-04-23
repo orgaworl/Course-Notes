@@ -52,10 +52,6 @@ xlabel('w');ylabel('b');zlabel('L');
 
 
 
-
-
-
-
 ```matlab
 symbol=["bx-","c*-","y>-","x-","^-","+-"];
 Fontsize=32;
@@ -151,4 +147,5 @@ figure
 boxplot(data)
 ```
 
-
+---
+author email: orgaworl@outlook.com
