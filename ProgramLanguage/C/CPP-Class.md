@@ -1,8 +1,13 @@
-C++面向对象的三大特性为：封装、继承、多态
+---
+
+
+---
+
 
 ---
 # 1.1 封装
 
+C++面向对象的三大特性为：封装、继承、多态
 ### 1.1.1 文件拆分
 
 -   class 的文件拆分
@@ -403,14 +408,14 @@ C++面向对象的三大特性为：封装、继承、多态
 		```cpp    
 	        bool operator&&( money m)  
             ​{  
-            ​ return m_cash&&m.m_cash;  
+	            return m_cash&&m.m_cash;  
             ​}
 		```
     -   全局函数
         ```cpp    
 	        bool operator&&( money a,money b)  
             {  
-            return a.m_cash&&b.m_cash;  
+	            return a.m_cash&&b.m_cash;  
             }
         ```
 -   函数调用运算符 () {}
@@ -418,7 +423,7 @@ C++面向对象的三大特性为：封装、继承、多态
 		```cpp
             void operator()(string text)  
             {  
-            cout << text << endl;
+			    cout << text << endl;
             }
 		```
     -   全局函数
@@ -429,10 +434,10 @@ C++面向对象的三大特性为：封装、继承、多态
         -   `类名( )(传入数据);`  
 
 -   只能用成员函数重载
-    -   =  ()  []  ->  
+    -   `=  ()  []  ->`  
 
 -   不能重载
-    -   .     .\*     ::    sizeof    ?   :
+    -   ` .     .\*     ::    sizeof    ?   : ` 
 
 ---
 
@@ -512,14 +517,12 @@ C++面向对象的三大特性为：封装、继承、多态
             -   0 地址早绑定，调用父类函数
                 -   （父类对象的指针或引用 执行子类对象）  
 	                ```cpp    
-                     void DoSpeak(Animal & animal)  
-                     {  
-                     animal.speak();  
-                     }  
-                     void test01()  
-                     {  
-                     Cat cat;  
-                     DoSpeak(cat);  
+                     void DoSpeak(Animal & animal){  
+	                     animal.speak();  
+                     }
+                     void test01(){  
+	                     Cat cat;  
+	                     DoSpeak(cat);  
                      ​}
 					```  
             -   1 地址晚绑定，调用传入的类的函数  
@@ -528,7 +531,7 @@ C++面向对象的三大特性为：封装、继承、多态
                 -   父类为虚函数则子类默认也为虚函数  
 
         -   纯虚函数 `virtual void func () =0;`  
-             需声明不需实现  
+             需声明不需实现 
              ​ 父类函数完全无用时用  
              且该父类成为抽象类
 
