@@ -20,11 +20,48 @@ tags:
 
 ## 宏定义
 
-**类型与数据**
+**数据宏定义**
 
 ```cpp
 #define LEN 1024
-#typedef uint8_t unsigned char
+```
+
+**类型宏定义**
+```cpp
+typedef type alias
+
+typedef struct LNode *LinkLink
+
+typedef struct Sname {
+	type1 var1;
+	type2 var2;
+}alias1,alias2;
+
+struct Sname{
+	type1 var1;
+	type2 var2;
+}instant1, instant2;
+
+```
+
+typedef struct 和 struct 的区别在于 - 
+- 使用时是否可以省去struct关键字(C-lang), cpp-lan不区别
+- typedef: 别名;  struct: 实例化;
+
+实例
+```cpp
+
+typedef Node{
+}Node,*LinkList;
+
+struct Node{
+};
+typedef struct Node Node;
+typedef struct Node *LinkList;
+
+Node    *list;
+LinkList list;
+
 ```
 
 **函数**
@@ -265,9 +302,9 @@ enum 枚举名{
 	    ```cpp
 	    void mySwap03(int& a, int& b)
 	    {
-	    int temp = a;
-	    a = b;
-	    b = temp;
+		    int temp = a;
+		    a = b;
+		    b = temp;
 	    }
 	    mySwap03(a, b);
 	    ```
