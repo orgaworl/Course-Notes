@@ -26,6 +26,13 @@ tags:
 #define LEN 1024
 ```
 
+| 已有宏      | 含义                                      |
+| -------- | --------------------------------------- |
+| __LINE__ | 这会在程序编译时包含当前行号。                         |
+| __FILE__ | 这会在程序编译时包含当前文件名。                        |
+| __DATE__ | 形式为 month/day/year 的字符串, 表示编译的日期。       |
+| __TIME__ | 形式为 hour:minute:second 的字符串, 表示程序被编译的时间 |
+
 **类型宏定义**
 ```cpp
 typedef type alias
@@ -45,7 +52,7 @@ struct Sname{
 ```
 
 typedef struct 和 struct 的区别在于 - 
-- 使用时是否可以省去struct关键字(C-lang), cpp-lan不区别
+- 使用时是否可以省去struct关键字(C), CPP不做区分
 - typedef: 别名;  struct: 实例化;
 
 实例
@@ -662,7 +669,7 @@ enum 枚举名{
 
 - 打开文件
 	```cpp
-	.open(const char *filename, ios::openmode mode);
+	fs.open(const char *filename, ios::openmode mode);
 	```
 
 | 模式标志       | 描述                                   |
@@ -675,7 +682,7 @@ enum 枚举名{
 
 - 关闭文件
 	```cpp
-	.close()
+	fs.close()
 	```
 - 写文件
 	```cpp
