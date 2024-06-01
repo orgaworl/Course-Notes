@@ -639,9 +639,8 @@ enum 枚举名{
 -   转化进制  
      标记使 cout 对所有整型变量都使用指定的方式输出（直到被下一个标记改变位置），而不仅限于标记之后的一个变量  
      用途：可以用来查看内存数值（16 进制数值
-
     -  16hex
-              cout << hex << counter;
+              `cout << hex << counter;`
     -   10dec
     -   8oct
 
@@ -653,7 +652,7 @@ enum 枚举名{
 	- `cin.get(char)`
 	- 
 -   数据输出
-    -   cout.put(a);  
+    -   `cout.put(a);` 
          a 为一个已定义字符或'a'
 
 
@@ -667,23 +666,29 @@ enum 枚举名{
 | ifstream | 该数据类型表示输入文件流，用于从文件读取信息。                     |
 | fstream  | 该数据类型通常表示文件流，且同时具有 ofstream 和 ifstream 两种功能 |
 
+- 流状态成员函数
+	- `eof()`： 表示如果读文件到达文件末尾，返回true
+	- `bad()`：如果在读写过程中出错，返回 true
+	- `fail()`：读写过程出错或格式错误时返回true
+
+
+
 - 打开文件
 	```cpp
-	fs.open(const char *filename, ios::openmode mode);
+	fstream ofm("fileName", ios::mode1 | ios::mode2);
+	fs.open("fileName", ios::mode1 | ios::mode2);
 	```
 
-| 模式标志       | 描述                                   |
-| ---------- | ------------------------------------ |
-| ios::app   | 追加模式。所有写入都追加到文件末尾。                   |
-| ios::ate   | 文件打开后定位到文件末尾。                        |
-| ios::in    | 打开文件用于读取。                            |
-| ios::out   | 打开文件用于写入。                            |
-| ios::trunc | 如果该文件已经存在，其内容将在打开文件之前被截断，即把文件长度设为 0。 |
 
-- 关闭文件
-	```cpp
-	fs.close()
-	```
+| 模式标志        | 描述                                   |
+| ----------- | ------------------------------------ |
+| ios::app    | 每次写操作定位到文件末尾。                        |
+| ios::ate    | 文件打开后定位到文件末尾。                        |
+| ios::in     | 打开文件用于读取。                            |
+| ios::out    | 打开文件用于写入。                            |
+| ios::trunc  | 如果该文件已经存在，其内容将在打开文件之前被截断，即把文件长度设为 0。 |
+| Ios::binary | 二进制                                  |
+
 - 写文件
 	```cpp
 	outfile << data << endl;
@@ -691,7 +696,37 @@ enum 枚举名{
 - 读文件
 	```cpp
 	infile >> data;
+	getline(infile,tmpStr);
 	```
+- 关闭文件
+	```cpp
+	fs.close()
+	```
+
+
+**示例**
+
+```cpp
+	// 写
+	fstream obj;
+	obj.open("./test.txt", ios::app);
+	for (auto i = 0; i < 3; i++)
+	{
+	    obj << str << endl;
+	}
+	obj.close();
+	
+	// 读
+	fstream obj2;
+	obj2.open("./test.txt", ios::in);
+	while (obj2 >> str)
+	{
+	    
+	    cout << str<<endl;
+	}
+	obj2.close();
+```
+
 
 
 ### C
@@ -722,10 +757,7 @@ putc();
 fputc();
 putchar();
 
-
 fflush()
-
-
 ```
 
 #### 字符串操作
