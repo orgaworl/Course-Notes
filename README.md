@@ -1,5 +1,5 @@
 # Course-Notes
 
-Just a repositories for personal use.
+Notes for Cyber Science.
 
 orgaworl@outlook.com

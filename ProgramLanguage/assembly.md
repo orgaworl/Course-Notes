@@ -6,7 +6,6 @@ tags:
   - 编译
 ---
 ---
-
 ## 0.  基础
 
 汇编程序组成:
@@ -18,26 +17,42 @@ tags:
 - 标号label
 	- 引用的指令或数据的符号名称
 	- `sym: .type value`
+	- `sym:`
 - 注释 comment
+```
+; 定义section
+.section .data
+.string "%d %d %.2f %0.2f %c %d\n"
+.global main
+
+
+
+```
+
 
 语法
 - AT&T
 - intel
 
+---
 ## **1. 寄存器**
-
-
-
 ### 通用寄存器
 
-七个通用+ESP 寄存器, ESP保存当前 Stack 的地址.
+8个通用, ESP保存当前 Stack 的地址.
 
-| 8+8bit | ah+al | bh+bl | ch+cl | dh+dl | +spl | +bpl | +Sil | +Dil | r8l-r15l |
-| ------ | ----- | ----- | ----- | ----- | ---- | ---- | ---- | ---- | -------- |
-| 16bit  | ax    | bx    | cx    | dx    | sp   | bp   | si   | di   | r8w-r15w |
-| 32bit  | eax   | ebx   | ecx   | edx   | esp  | ebp  | esi  | edi  | r8d-r15d |
-| 64bit  | rax   | rbx   | rcx   | rdx   | rsp  | rbp  | rsi  | rdi  | r8-r15   |
-| 作用     | 累加    | 基址    | 计数    | 数据    | 栈指针  | 基址指针 | 源地址  | 目的地址 | 通用       |
+| 8+8bit | ah+al | bh+bl | ch+cl | dh+dl | +spl | +bpl | +Sil | +Dil |
+| ------ | ----- | ----- | ----- | ----- | ---- | ---- | ---- | ---- |
+| 16bit  | ax    | bx    | cx    | dx    | sp   | bp   | si   | di   |
+| 32bit  | eax   | ebx   | ecx   | edx   | esp  | ebp  | esi  | edi  |
+| 64bit  | rax   | rbx   | rcx   | rdx   | rsp  | rbp  | rsi  | rdi  |
+| 作用     | 累加    | 基址    | 计数    | 数据    | 栈指针  | 基址指针 | 源地址  | 目的地址 |
+
+| r8l-r15l |
+| -------- |
+| r8w-r15w |
+| r8d-r15d |
+| r8-r15   |
+| 通用       |
 
 新指令级中使用的寄存器是旧寄存器的超集. 
 在新指令级中使用旧寄存器可以访问新寄存器固定范围的位.
@@ -46,23 +61,21 @@ r8-r15 只在x86-64中出现, x86-32中不存在.
 
 ### 非通用寄存器
 
-
-| 16bit | ip  |       |
-| ----- | --- | ----- |
-| 32bit | eip | eflag |
-| 64bit | rip | rflag |
-| 作用    |     |       |
+| 16bit | ip  |       |     |
+| ----- | --- | ----- | --- |
+| 32bit | eip | eflag |     |
+| 64bit | rip | rflag |     |
+| 作用    |     |       |     |
 
 rip 寄存器
 - 始终指向下一条指令地址, 由CPU自动设置
 - 在x86-64下可以读取指令指针的值, x86-32下则不可.
 
-rflag寄存器
+rflag 标志寄存器
 - 用以比较和条件分支
 
 
-
-
+---
 ## 2. 指令
 
 **指令格式**
@@ -82,6 +95,9 @@ x86 ISA使用变长指令, 长度为1-15字节.
 | prefix | Opcode | Addressing mode | SIB byte | Displacement | Immediate |
 | 0-4 B  | 1-3 B  | 0-1             | 0-1      | 0/1/2/4 B    | 0/1/2/4 B |
 
+
+![[Pasted image 20240623192731.png]]
+
 **指令操作数**
 
 隐式操作数: 部分指令的某些操作数是固定值, 因此省略.
@@ -94,15 +110,30 @@ x86 ISA使用变长指令, 长度为1-15字节.
 	- 取内存大小
 		- DWORD => 4B
 		- WORD => 2B
-	-  [base+index*scale+displacement]
+	-  $[base+index*scale+displacement]$
 		- base 和 index 为64bit寄存器
 		- scale 为1/2/4/8
 		- displacement 为 32bit 常量/符号
-		- base,index,scale 编码在SIB中, Displacement 编码在同名数据域.
+		- base,index,scale 编码在SIB中, Displacement 编码在Displacement.
 	- x86 ISA最多仅支持一个显示内存操作数, 对内存和内存进行操作时使用寄存器做中间存储.
 	- 可以将rip作为内存操作数base, 借助rip进行相对寻址
 
 
+```assembly
+mov     ebx,0ffh             
+lea     eax,[ebx+ecx]        
+sub     eax,[ebx+ecx*4h-20h] 
+mov     DWORD PTR [rbp-8], 1
+```
+ 
+ 
+ **Cast Operator（Intel）**
+- `PTR`，表示指针，pointer的简写。
+- `BYTE`: 字节，8位。
+- `WORD`: 字，2bytes，16位（8086的word只有16bit，沿用至今）
+- `DWORD`: 双字，4bytes，32位
+- `QWORD`: 8bytes，64位
+- `XMMWORD`：16bytes，128位
 
 
 ### 2.1. 基础指令
@@ -114,15 +145,14 @@ mnemonic destination, source
 助记符 操作数1,操作数2
 ```
 
-
 #### 复杂指令
 
 **1. `push`压栈**
-先令`esp`自减, 再将数据放入.
+先令`esp`自减, 再将寄存器中数据放入.
 
 
 **2. `pop`**
-
+将栈顶数据读入寄存器，`esp`自增
 
 **3. `call`指令用来调用函数**
 将返回地址压入栈中, 跳转到新指令地址.
@@ -133,7 +163,6 @@ mnemonic destination, source
 - 恢复寄存器
 
 **`4.enter`**
-
 等价于
 ```
 push rbp
@@ -154,8 +183,9 @@ pop rbp
 根据**减运算**结果在**标志寄存器**中设置**状态标志位**.
 标志寄存器:
 - rflags
-- ZF 结果是否为0
-- SF 负数
+- CF 进位数据
+- ZF 结果为0
+- SF 结果为负数
 - OF 溢出
 
 **7. `test`**
@@ -166,19 +196,47 @@ pop rbp
 #### 一般指令
 
 ```assembly
+; 数据移动
+mov
+push
+pop
+lea dst,src    ;将内存地址加载到dst,即dst=&src
 
-xchg dst1,dst2
-cmp src1,src2  ;根据 src1-src2 设置状态标志位
-test src1,src2 ;根据 src1&src2 设置状态标志位
+; 运算
+add
+sub         
+inc           ; ++
+dec           ; --
+mul           ;无符号乘法
+imul          ;有符号数乘
+idiv          ;有符号除法
+and
+or
+xor
+not
+neg
+
+shl           ;逻辑左移
+sal           ;算数左移
+rol           ;循环左移
+shr           ;逻辑右移
+sar           ;算数右移
+ror           ;循环右移
+
+
+;其他
+xchg dst1,dst2 ;交换两个寄存器值
 syscall        ;进入内核执行系统调用
 int 0x80       ;x86-32 系统调用
+nop            ;空指令
+
+
+;控制流
 jmp addr       ;无条件跳转
 call addr      ;将返回地址压入栈中,调用函数
 ret            ;从栈上弹出返回地址,并跳转
-lea dst,src    ;将内存地址加载到dst
-nop            ;空指令
-lea dst,src    ;将内存地址加载到dst,即dst=&src
-
+cmp src1,src2  ;根据 src1-src2 设置状态标志位
+test src1,src2 ;根据 src1&src2 设置状态标志位
 
 ; 条件跳转, 基于状态寄存器进行跳转
 jz  ;为零, 设置ZF零标志位则跳转
@@ -192,11 +250,7 @@ jle ;有符号小于等于
 js  ;结果为负
 jnz ;结果非0
 
-
-
 ```
-
-
 
 
 
@@ -236,13 +290,14 @@ jnz ;结果非0
 
 - **执行系统调用**
 	- rax 保存系统调用号
-	- rdi 文件描述符
-	- rsi 缓冲区地址
-	- rdx 读取字节数
-
+	```
+	mov eax,0xee ;系统调用号
+	int 0x80     ;使用中断号 0x80 触发系统调用
+	```
 
 - **函数调用**
 	```assembly
+	; x86_64下
 	; 保存参数(寄存器+内存方法)
 	mov rdi,para1
 	mov rsi,para2
@@ -268,15 +323,13 @@ jnz ;结果非0
 	; 创建栈帧
 	push rbp     ; 保存原rbp入栈
 	mov rbp,rsp  ; 保存新rbp
-	...          ; 保存r12-r15寄存器
-
+	...          ; 保存ebx、r12-r15寄存器
 
 	; 函数体
 	sub rsp,0x10 ; 在栈区分配空间
 	...          ; 将局部变量保存到栈上
 
-
-	...          ; 恢复r12-r15寄存器
+	...          ; 恢复rbx、r12-r15寄存器
 	; 尾声
 	mov eax,0x00 ; 设置函数返回值
 	leave        ; 恢复栈指针rsp和帧指针rbp
@@ -311,18 +364,18 @@ Windows对系统调用再次进行封装为DLL机制, 额外增加一层api
 
 往往通过中断实现.
 
-对系统调用接口的要求
-- 有明确的定义
-- 保持稳定和向后兼容
+- 对系统调用接口的要求:
+	- 有明确的定义
+	- 保持稳定和向后兼容
 
-**缺陷**
-- OS 提供系统调用接口过于原始
-- 操作系统之间系统调用互不兼容
+- **缺陷**
+	- OS 提供系统调用接口过于原始
+	- 操作系统之间系统调用互不兼容
 
 **解决方法**: 
 增加层 - 运行库/标准库
 优点: 源代码级别的可移植性
-缺陷: 为满足可移植性, 只能去所有平台功能的交集.
+缺陷: 为满足可移植性, 只能取所有平台功能的交集.
 
 #### 系统调用原理
 
@@ -363,7 +416,7 @@ syscall
 不同架构下系统调用的差别
 ![[Pasted image 20240604175717.png|600]]
 
-
+x86_64 中系统调用参数与函数调用参数所使用的寄存器完全相同。
 
 
 
