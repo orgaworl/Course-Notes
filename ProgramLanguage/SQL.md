@@ -83,7 +83,6 @@ ALTER TABLE tbname DROP INDEX idname;
 DROP INDEX idname;
 //用于 MS Access 的 DROP INDEX 语法：
 DROP INDEX idname ON tbname;
-
 ```
 
 ### 操作
@@ -91,7 +90,8 @@ DROP INDEX idname ON tbname;
 ```sql
 // 插入数据
 #先建立表,将子查询结果插入
-INSERT INTO table_name [(column1,column2,column3,...)]
+INSERT INTO table_name 
+[(column1,column2,column3,...)]
     VALUES (value1,value2,value3,...);// 1)插入元组
     SELECT colname(s) FROM table1;    // 2)插入子查询结果
 
@@ -110,7 +110,6 @@ UPDATE table_name
     WHERE condition;
 
 TRUNCATE TABLE table_name;//仅清空表中数据,表仍存在
-
 ```
 
 ### 查询
@@ -283,7 +282,6 @@ DELETE FROM viewname
 UPDATE viewname 
     SET col=val
     WHERE condition
-
 ```
 
 ### 控制
@@ -362,12 +360,6 @@ COUNT(DISTINCT user_id)
 
 ## SQL数据类型
 
-
-
-
-
-
-
 ***
 
 ## SQL自带函数
@@ -416,6 +408,6 @@ END
 
 `select name from sys.databases`
 
-
 ---
+
 author email: orgaworl@outlook.com
