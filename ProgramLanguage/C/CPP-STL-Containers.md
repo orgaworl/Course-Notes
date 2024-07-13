@@ -1,4 +1,4 @@
-# Basic Concept
+## Basic Concept
 
 | 组件             | 描述                                                           |
 | -------------- | ------------------------------------------------------------ |
@@ -13,62 +13,45 @@
 - 适配器（Adapters）
 - 仿函数（Functors）
 
-# 一. Syntax
 
 ---
 
-## 1. Containers
+## Containers
 
 打勾的是本次将会详细讲解的，加粗的是算法竞赛中有必要学习的。
 
 - 顺序容器
-  
   - [ ] **array**
-  
   - [x] **vector**
-  
   - [ ] **deque**
-  
-  - [ ]forward_list
-  
+  -  [ ] forward_list
   - [ ] **list**
 
 - 关联容器
-  
   - [x] **set**
   - [x] **map**
   - [ ] **multiset**
   - [ ] **multimap**
 
 - 无序关联容器
-  
   - [ ] **unordered_set**
   - [ ] **unordered_map**
   - [ ] **unordered_multiset**
   - [ ] **unordered_multimap**
 
 - 容器适配器
-  
   - [x] **stack**
-  
   - [x] **queue**
-  
   - [x] **priority_queue**
-  
   - flat_set
-  
   - flat_map
-  
   - flat_multiset
-  
   - flat_multimap
 
 - 字符串
-  
   - [x] **string** (basic_string\<char\>)
 
 - 对与元组
-  
   - [x] **pair**
   - [ ] **tuple**
 
@@ -78,17 +61,21 @@
 
 ```c
 #include<vector>
-vector<type> vec( len,[initVal]/(vec2);
+
 //一维数组
+vector<type> vec( len,[initVal]/vec2);
+
+// 构造初始100行，不指定列数的二维数组
 vector<vector<int>> mat(100, vector<int> ());
-// 构造初始100行，不指定列数的二维数组       
-vector<vector<int>> mat(100, vector<int> (666, -1))
+
 // 构造初始100行，初始666列的二维数组，初值为-1
+vector<vector<int>> mat(100, vector<int> (666, -1))
+
 
 
 //调用
-.size()//r 容器真实占用的大小，也就是容器当前拥有多少个容器
-.empty()//是否为空
+.size()  //r 容器真实占用的大小，也就是容器当前拥有多少个容器
+.empty() //是否为空
 .capacity()//发生 realloc 前能允许的最大元素数，即预分配的内存空间。
 .front()
 .back()
@@ -171,7 +158,7 @@ queue<typeN>var;
 提供常数时间的最大元素查找，对数时间的插入与提取，底层原理是二叉堆。
 
 ```c
-#include <queue>
+#include <queue> 
 priority_queue<typeN> q;
 
 q.top()    //访问队首元素
@@ -406,22 +393,6 @@ bitset<n>bs //n必须为常量
 |`b.flip()`|把b中所有二进制位取反|
 |`b.flip(pos)`|把b中pos位置取反|
 |`b.to_ulong()`|用b中同样的二进制位返回一个unsigned long值|
-
-
-
-
----
-## 2. Algorithms
-
-
-
-
-
-
----
-## 3. Iterators
-
-
 
 
 
