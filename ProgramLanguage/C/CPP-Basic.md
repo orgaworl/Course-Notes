@@ -738,6 +738,10 @@ enum 枚举名{
 
 
 #### 输入输出
+```cpp
+    char tmp = 0xFF;
+    printf("%02X ",(int)(unsigned char)tmp);
+```
 
 ```cpp
 
