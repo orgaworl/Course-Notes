@@ -5,6 +5,12 @@ tags:
 ## Title
 
 
+>[!NOTE] Note
+
+>[!important] important
+
+
+
 
 
 ---
