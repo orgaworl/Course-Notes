@@ -40,6 +40,23 @@ use crate::<TraitName>;
 	- ge
 	- le
 
+```rust
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct WrappingU32 {
+    value: u32,
+}
+impl WrappingU32 {
+    pub fn new(value: u32) -> Self {
+        Self { value }
+    }
+}
+impl std::ops::Add for WrappingU32 {
+    type Output = Self;
+    fn add(self, rhs: Self) -> Self::Output {
+        Self::new(self.value.wrapping_add(rhs.value))
+    }
+}
+```
 #### 派生宏
 
 **结构体解构**:将结构体分解为多个字段
@@ -55,10 +72,8 @@ let StructName{
 派生宏用于**自动为自定义类型实现一些常见的特质**。展开宏，会看到生成的代码在功能上等同于你手动编写的代码，尽管读起来可能稍显复杂：
 
 ```rust
-#[derive(Clone)]
-#[derive(Copy, Clone)]
-#[derive(Debug)]
-#[derive(PartialEq)]
+
+#[derive(Debug, Clone, Copy, PartialEq)]
 struct Ticket {
     title: String,
     description: String,
@@ -105,12 +120,14 @@ impl Deref for String {
 #### `Sized` 特性
 
 如果一个类型的大小在编译时已知，则它是 `Sized` 的, 而不是DST. 
+使用`std::mem::size_of::<type>();`获知`Sized`类型大小
 
 - 标记号特质
 >标记特质不需要实现任何方法。它不定义任何行为。它仅用于**标记**类型具有某些属性。 这个标记随后被编译器利用，以启用特定行为或优化。
 
 - 自动特质
 >特别地，`Sized` 也是一个**自动特质**。你不需要显式实现它；编译器会根据类型的定义自动为你实现。
+
 
 #### Supertrait / Subtrait
 超集特性/子集特性
@@ -128,7 +145,7 @@ let varT:T=T::from(varU)
 ```
 
 
-`From`和`Into`是**对称特性**, 任何实现了`From`的类型都会自动实现一个**空白实现`Into`：
+`From`和`Into`是**对称特性**, 任何实现`From`的类型都会自动实现一个**空白实现`Into`：
 ```rust
 impl<T, U> Into<U> for T
 where
@@ -159,10 +176,11 @@ trait Deref {
 可以为类型多次实现`From`，只要**输入类型**不同即可
 ```rust
 trait From<T> {
-    fn from(value: T) -> Self;
+    fn from(var: T) -> Self;
 }
+
 impl From<type1> for U {
-    fn from(value: u32) -> Self {
+    fn from(value: type1) -> Self {
 	    // ****
     }
 }
@@ -173,6 +191,38 @@ impl From<type2> for U {
 }
 ```
 
+```rust
+trait Power<T> {
+    fn power(&self,pow:T) -> u32;
+}
+impl Power<u32> for u32 {
+    fn power(&self,pow:u32)->u32 {
+        let mut res=1;
+        for _ in 0..pow{
+            res*=self;
+        }
+        res
+    }
+}
+impl Power<u16> for u32 {
+    fn power(&self,pow:u16)->u32 {
+        let mut res=1;
+        for _ in 0..pow{
+            res*=self;
+        }
+        res
+    }
+}
+impl Power<&u32> for u32 {
+    fn power(&self,pow:&u32)->u32 {
+        let mut res=1;
+        for _ in 0..*pow{
+            res*=self;
+        }
+        res
+    }
+}
+```
 #### Clone 特性
 `clone`接受一个引用`self`并返回一个**相同类型的**新**拥有**实例.
 ```rust
@@ -193,6 +243,7 @@ pub trait Clone {
 #### Drop特性
 `Drop`特性是一种机制，让你为类型定义**额外**清理逻辑，超出编译器自动为你做的部分。你在`drop`方法中放入的任何内容都会在值超出作用域时被执行。
 ```rust
+use std::ops::Drop;
 pub trait Drop {
     fn drop(&mut self);
     }
@@ -200,3 +251,80 @@ pub trait Drop {
 
 
 如果类型有显式的`Drop`实现，编译器会认为你的类型附加了额外资源，并不允许你实现`Copy`。
+
+```rust
+use std::ops::Drop;
+impl Drop for DropBomb{
+    fn drop(&mut self) {
+        if self.flag{
+            panic!("panic!!!!!");
+        }
+    }
+}
+```
+
+
+#### 总结
+```rust
+use std::clone;
+use std::ops::Add;
+use std::cmp::PartialEq;
+#[derive(Debug,Clone, Copy)]
+pub struct SaturatingU16{
+    value:u16,
+}
+
+impl SaturatingU16{
+    fn new(value:u16)->Self{
+        SaturatingU16{
+            value:value ,
+        }
+    }
+}
+//  ---------------------------------------
+impl From<u16> for SaturatingU16{
+    fn from(var:u16)->Self {
+        SaturatingU16{
+            value:var
+        }
+    }
+}
+impl From<u8> for SaturatingU16 {
+    fn from(var:u8)->Self {
+        SaturatingU16{
+            value:var as u16
+        }
+    }
+}
+
+// ---------------------------------------
+
+impl Add<Self> for SaturatingU16{
+    type Output = Self;
+    fn add(self,other:Self)->Self{
+        SaturatingU16::new(
+            self.value.saturating_add(other.value))
+    }
+}
+impl Add<u16> for SaturatingU16{
+    type Output = Self;
+    fn add(self,other:u16)->Self{
+        SaturatingU16::new(
+            self.value.saturating_add(other))
+    }
+}
+
+// ---------------------------------------
+impl PartialEq<Self> for SaturatingU16{
+    fn eq(&self,other:&Self)->bool {
+        self.value==other.value
+    }
+}
+
+impl PartialEq<u16> for SaturatingU16{
+    fn eq(&self,other:&u16)->bool {
+        self.value==*other
+    }
+}
+
+```
