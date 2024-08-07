@@ -7,14 +7,25 @@
 - **所有权**：迭代器可以处理拥有或借用的元素。当迭代器借用元素时，它不会取得元素的所有权。例如，iter() 方法返回的是一个借用迭代器，而 into_iter() 方法返回的是一个获取所有权的迭代器。
 
 #### 创建迭代器
-```
+```rust
 let iter      = vec.iter();
 let iter_mut  = vec.iter_mut();
 let into_iter = vec.into_iter();
+
 0..n   //[0,n)
 0..=n  //[0,n]
 
+use std::ops::{Range, RangeInclusive};
+Range{ start:0,end:n};
+RangeInclusive::new(0,n); //包含结束值
+
 ```
+
+
+注意:
+- `assert_eq!((1..=5), RangeInclusive::new(1, 5));`成立
+- `assert_eq!((1..6), RangeInclusive::new(1, 5));`  不成立,两者类型不同不能直接比较
+
 
 #### 迭代器方法
 
@@ -108,85 +119,180 @@ impl Rectangle {
 - 参数无需`&self`, 不依赖实例执行
 - 调用静态方法的唯一方式是使用**函数调用语法**
 
-#### 枚举类
+#### 枚举类 enumerations
 
 ```rust
-
-```
-
-### 09 模块
-**模块**将相关代码组织在一起，置于一个共同的命名空间下（即模块名）
-
-#### 内联模块
-```rust
-//内联模块:模块声明和模块内容一起
-mod ModName{
+enum Status {
+    ToDo,
+    InProgress,
+    Done,
 }
 ```
 
-#### 模块树
-- 模块可以嵌套，形成**树状结构**。树的根是**crate**本身，即包含所有其他模块的顶级模块。对于库，根模块通常是`src/lib.rs`（除非位置被自定义过）。
-- 根模块也被称为**crate根**。
-- 根模块可以有子模块，它们反过来也有自己的子模块，以此类推。
-
-#### 模块分文件
-
-在父模块里，用`mod`关键字声明子模块的存在。
-`mod dog;`
-
-模块声明在crate的根目录（如`src/lib.rs`或`src/main.rs`）
-- `src/<module_name>.rs`
-- `src/<module>/mod.rs`
-
-模块是另一个模块的子模块，文件应命名为：
-- `[..]/<parent_module>/<module>.rs`
-- `[..]/<module>/mod.rs`
-
-
-比如，如果是`animals`的子模块，那么`src/animals/dog.rs`或`src/dog/mod.rs`。
-
-#### 项路径与访问
-- 同一模块里的项可以直接访问
-
-- 从不同模块访问实体,要用指向要访问实体的**路径**
-	- 从当前crate根开始，比如 `crate::module_1::module_2::MyStruct`
-	- 从父模块开始，比如 `super::my_function`
-	- 从当前模块开始，比如 `sub_module::MyStruct`
-
-- **使用use引入到作用域**
-	- 使用 `*` 引入模块中所有项目
-
-#### 可见性
-Rust中，默认一切都是**私有的**, 私有实体只能在以下情况下被访问：
-1. 定义它的同一个模块内部，或
-2. 其子模块之一
-
-**可见性修饰符**
-你可以使用**可见性修饰符**来修改实体的默认可见性:
-- `pub`：使实体**公开**，在定义模块之外也能访问，可能还允许其他crate访问。
-- `pub(crate)`：在同一个**crate**内部公开实体，但不允许外部访问。
-- `pub(super)`：在父模块中公开实体。
-- `pub(in path::to::module)`：在指定的模块中公开实体。
-
+#####  **匹配 match**
+`match`语句让你能把Rust值与一系列**模式**进行比较。你可以把它想象成类型级别的`if`。如果`status`是`已完成`变体，执行第一块代码；如果是`进行中`或`待办`变体，则执行第二块代码。
 ```rust
-pub struct{
-	pub(crate)version:u32,
+enum Status {
+    ToDo,
+    InProgress,
+    Done
 }
-
-pub mod ticket {
-    pub struct Ticket {
-        title: String,
-        description: String,
-        status: String,
-    }
-
-    impl Ticket {
-        pub fn new() {
+impl Status {
+    fn is_done(&self) -> bool {
+        match self {
+            Status::Done => true,
+            // The `|` operator lets you match multiple patterns.
+            Status::InProgress | Status::ToDo => false
         }
     }
 }
-
 ```
+
+##### 完备性
+`match`是**完备的**。你必须处理所有枚举变体。如果你遗漏了某个变体，Rust会在**编译时**阻止你并报错。
+
+
+#####  **通配符**
+如果你不关心一个或多个变体，可以使用`_`模式作为通配符：
+```rust
+match status {
+	Status::Done => true,
+	_ => false 
+}
+```
+
+##### 变体
+在每个变体**附加数据**
+```rust
+enum Status {
+    ToDo,
+    InProgress {
+        assigned_to: String,
+    },
+    Done,
+}
+```
+
+访问变体数据需要使用模式匹配, 避免访问到不可用实例
+```rust
+match status {
+    Status::InProgress { assigned_to } => {
+        println!("Assigned to: {}", assigned_to);
+    },
+    Status::ToDo | Status::Done => {
+        println!("Done");
+    }
+}
+```
+
+实例
+```rust
+#[derive(Debug, PartialEq)]
+struct Ticket {
+    title: String,
+    description: String,
+    status: Status,
+}
+#[derive(Debug, PartialEq)]
+enum Status {
+    ToDo,
+    InProgress { assigned_to: String },
+    Done,
+}
+
+impl Ticket {
+    pub fn new(title: String, description: String, status: Status) -> Ticket {
+        Ticket {
+            title,
+            description,
+            status,
+        }
+    }
+    pub fn assigned_to(&self) -> &str {
+        match  &(self.status){
+            Status::InProgress { assigned_to}=>{
+                assigned_to
+            },
+            _=>{
+                panic!("");
+            },
+        }
+    }
+}
+```
+
+
+##### 绑定
+可将字段绑定到其他变量名
+```rust
+match status {
+    Status::InProgress { assigned_to: person } => {
+        println!("Assigned to: {}", person);
+    },
+    Status::ToDo | Status::Done => {
+        println!("Done");
+    }
+}
+```
+
+##### 枚举变体匹配中的分支判断
+
+if-let
+```rust
+impl Ticket {
+    pub fn assigned_to(&self) -> &str {
+        if let Status::InProgress { assigned_to } = &self.status {
+            assigned_to
+        } else {
+            panic!("");
+        }
+    }
+}
+```
+
+实例
+```rust
+enum Shape {
+    Circle { radius: f64 },
+    Square { border: f64 },
+    Rectangle { width: f64, height: f64 },
+}
+impl Shape {
+    pub fn radius(&self) -> f64 {
+        if let Shape::Circle { radius }= &self{
+            *radius
+        }
+        else{
+            panic!("");
+        }
+    }
+}
+```
+
+
+let-else
+```
+impl Ticket {
+    pub fn assigned_to(&self) -> &str {
+        let Status::InProgress { assigned_to } = &self.status else {
+            panic!("");
+        };
+        assigned_to
+    }
+}
+```
+
+
+##### Option枚举类
+`Option`是Rust中表示**可空值**的类型。
+```rust
+enum Option<T> {
+    Some(T),
+    None,
+}
+```
+
+
 ### 10 泛型
 **函数**
 ```rust
@@ -243,7 +349,27 @@ enum Result<T, E> {
 - 引用只能租借（Borrow）值的所有权。
 - 引用本身也是一个类型并具有一个值，这个值记录的是别的值所在的位置，但引用不具有所指值的所有权：
 
-#### 函数调用中所有权变化
+
+```rust
+// 错误: String 类型会发生所有权转移
+let x = (1, 2, (), "hello".to_string());
+let y = x;
+
+// 正确: &str类型会发生直接复制(copy)
+let x = (1, 2, (), "hello");
+let y = x;
+```
+
+
+所有权转移可以带来可变性变化
+```rust
+fn main() {
+    let s = String::from("hello, ");
+    let mut s1 = s;
+    s1.push_str("world")
+}
+```
+
 
 #### 借用
 拥有一些不获取其所有权就能读取变量值的方法是可取的。否则编程将受到很大限制。在Rust中，这是通过**借用**来完成的。
@@ -256,14 +382,107 @@ enum Result<T, E> {
 回到Rust所有权系统的目标：
 - 数据在被读取时从不被修改
 - 数据在被修改时从不被读取
-
-为了确保这两点，Rust必须对引用引入一些限制：
-- 你不能同时拥有对同一值的可变引用和不可变引用
-- 你不能同时拥有对同一值的多个可变引用
+##### 数量限制
+> [!IMPORTANT]
+为了确保这两点，Rust必须对引用引入一些**限制**：
+- 不能同时拥有对同一值的可变引用和不可变引用
+- 不能同时拥有对同一值的多个可变引用
 - 所有者在值被借用期间不能修改值
-- 只要有不可变引用，你可以拥有任意数量的不可变引用，只要没有可变引用
+- 没有可变引用, 可拥有任意数量的不可变引用，
 
 在某种程度上, 你可以将不可变引用视为值上的“只读”锁, 而可变引用则像是“读写”锁, 所有这些限制都由借用检查器在编译时强制执行。
+
+
+```rust
+fn main() {
+    let mut s = String::from("hello, ");
+    let r1 = &mut s;
+    r1.push_str("world");
+    let r2 = &mut s;
+    r2.push_str("!");
+    //println!("{}",r1); // 注释掉一行代码让它工作
+}
+```
+>编译器判断r1的生命周期, 在其生命周期内只允许**一个可变引用**存在, 生命周期结束后可再次创建可变引用. (生命周期不是以一个完整函数体为界)
+
+
+##### 可变性限制
+要求: 
+- 从不可变对象借用不可变
+- 从可变对象借用可变/不可变
+```rust
+fn main() {
+    let mut s = String::from("hello, ");
+    borrow_object(&s);
+    s.push_str("world");
+}
+fn borrow_object(s: &String) {
+}
+```
+
+
+#### 引用
+实质上是一个指针,保存地址,访问原数据需要用`*`
+
+获取引用的方法:
+- `&`
+	包含两种(形参和实参)
+	- 可变引用`&mut var`
+	- 不可变引用`&var`
+- `ref`
+	在模式匹配中创建对某个值的引用
+	```rust
+	// 直接使用
+	let ref refVar = var;
+	
+	// match 语句中
+	match tuple {
+	    (ref x, ref y, ref z) => { }
+	};
+	
+	// 元组
+	let (ref a,ref b)=(var1,var2);
+	
+	//结构体
+	let Person { ref, ref age } = person;
+	```
+
+
+
+
+#### 部分move
+变量中一部分的所有权被转移给其它变量, 而另一部分我们获取了它的引用, 原变量将无法再被使用, 但是它没有转移所有权的那一部分依然可以使用, 也就是之前被引用的那部分.
+```rust
+fn main() {
+    #[derive(Debug)]
+    struct Person {
+        name: String,
+        age: Box<u8>,
+    }
+    let person = Person {
+        name: String::from("Alice"),
+        age: Box::new(20),
+    };
+
+    // 解构式模式匹配
+    // person.name 的所有权被转移给新的变量 `name`
+    // `age` 变量是对person.age 的引用
+    let Person { name, ref age } = person;
+    println!("{}", age);
+    println!("{}", name);
+    //println!("{:?}", person); //error
+    println!("{}", person.age);
+}
+```
+
+```rust
+fn main() {
+   let t = (String::from("hello"), String::from("world"));
+   let (ref s1, ref s2) = t;
+   println!("{:?}, {:?}, {:?}", s1, s2, t); 
+   // -> "hello", "world", ("hello", "world")
+}
+```
 
 #### 设置器
 设置器方法允许用户更改`Ticket`的私有字段值，同时确保其不变性得到尊重（例如，你不能将`Ticket`的标题设置为空字符串）。
@@ -308,12 +527,116 @@ enum Result<T, E> {
 ---
 ### 12 错误处理
 
+#### 不可恢复的错误
 ```rust
 panic!("ErrorMessgae");
+unimplemented!()
+todo!()
 assert_eq!()
 assert!()
+```
+
+#### 可恢复的错误: Result 枚举类
+```rust
+enum Result<T, E> {
+    Ok(T),
+    Err(E),
+}
+```
+有两个变体：
+- `Ok(T)`：表示成功执行的操作，包含操作的输出`T`。
+- `Err(E)`：表示失败的操作，包含发生的错误`E`。
+`Ok`和`Err`都是泛型，允许你为成功和错误情况指定自己的类型。
+
+##### 错误
+>Rust中的可恢复错误**以值的形式表示**。它们只是一个类型的实例，像任何其他值一样被传递和操作。
+
+>Rust通过`Result`强制你**在函数签名中编码失败的可能性**。如果一个函数可能失败（并且你想让调用者有机会处理错误），它必须返回一个`Result`。
+
+```rust
+// 仅凭签名，你就能知道这个函数可能会失败。
+// 你还可以检查`ParseIntError`以了解可能出现的失败类型。
+fn parse_int(s: &str) -> Result<i32, ParseIntError> {
+    // ...
+}
+```
+
+
+##### 错误处理: 解包
+错误不能自动忽略,必须显式处理.
+处理方式:
+- 如果操作失败，则恐慌, 通常使用`unwrap`或`expect`方法完成。
+    ```rust
+    // 如果`parse_int`返回`Err`则恐慌。
+	let number = parse_int("42").unwrap();
+	// `expect`允许你指定自定义的恐慌信息。
+	let number = parse_int("42").expect("解析整数失败");
+	```
+    
+- 使用`match`表达式解构`Result`以显式处理错误情况。
+    ```rust
+	match parse_int("42") {
+	    Ok(number) => println!("解析的数字: {}", number),
+	    Err(err) => eprintln!("错误: {}", err),
+	}
+	```
+
+
+##### 枚举错误类型Error
+
+```rust
+enum U32ParseError {
+    NotANumber,
+    TooLarge,
+    Negative,
+}
+match s.parse_u32() {
+    Ok(n) => n,
+    Err(U32ParseError::Negative) => 0,
+    Err(U32ParseError::TooLarge) => u32::MAX,
+    Err(U32ParseError::NotANumber) => {
+        panic!("Not a number: {}", s);
+    }
+}
 
 ```
+
+##### 错误特性 Error trait
+`Error`有两个超特性：`Debug`和`Display`。如果一个类型想要实现`Error`，它也必须实现`Debug`和`Display`。
+
+```rust
+// `Debug` 低级表示,可自动实现
+pub trait Debug {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), Error>;
+}
+
+// `Display` 手动实现,抽象表示
+pub trait Display {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), Error>;
+}
+
+```
+
+#### 类型转换错误
+定义:
+```rust
+pub trait TryFrom<T>: Sized {
+    type Error;
+    fn try_from(value: T) -> Result<Self, Self::Error>;
+}
+pub trait TryInto<T>: Sized {
+    type Error;
+    fn try_into(self) -> Result<T, Self::Error>;
+}
+```
+
+两者关系与性质:
+- `From` 和 `Into` 特性，这是 Rust 中用于**肯定不会出错**类型转换的习惯用法接口
+- **可能出错**的类型转换：`TryFrom` 和 `TryInto`。
+- `TryFrom` 和 `TryInto` 都定义在 `std::convert` 模块中，和 `From` 与 `Into` 一样。
+- `From`/`Into` 与 `TryFrom`/`TryInto` 之间的主要区别在于后者返回一个 `Result` 类型。这允许转换失败，并返回错误而不是导致恐慌。
+
+
 
 
 ---
