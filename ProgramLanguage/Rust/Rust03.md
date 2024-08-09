@@ -6,6 +6,8 @@
 - **不可变访问**：迭代器默认以不可变方式访问其元素，这意味着在迭代过程中不能修改元素。
 - **所有权**：迭代器可以处理拥有或借用的元素。当迭代器借用元素时，它不会取得元素的所有权。例如，iter() 方法返回的是一个借用迭代器，而 into_iter() 方法返回的是一个获取所有权的迭代器。
 
+>直接访问可迭代对象可能会导致所有权的转移
+
 #### 创建迭代器
 ```rust
 let iter      = vec.iter();
@@ -38,6 +40,12 @@ Rust 的迭代器提供了丰富的方法来处理集合中的元素，其中一
 - `take()`：获取指定数量的元素。
 - `enumerate()`：为每个元素提供索引。
 
+#### 迭代访问
+```rust
+for (i, v) in a.iter().enumerate() {
+	println!("The {}th element is {}", i + 1, v);
+}
+```
 
 
 ---
@@ -46,6 +54,7 @@ Rust 的迭代器提供了丰富的方法来处理集合中的元素，其中一
 
 #### 结构体
 **结构体**
+当字段名与用以初始化的变量名相同时, 可省略为一个.
 ```rust
 //define
 struct Site {
@@ -62,7 +71,10 @@ let runoob = Site {
     found: 2013
 };
 ```
-结构体更新
+
+
+结构体更新:
+基于一个结构体实例来构造另一个
 ```rust
 let ori=Stru{};
 let new=Stru{
@@ -73,8 +85,23 @@ let new=Stru{
 
 ```
 
+你可以在实例化一个结构体时将它**整体标记为可变的**，但是 Rust 不允许我们将结构体的某个字段专门指定为可变的.
+```rust
+let mut p = Person {
+	name: String::from("sunface"),
+	age:18,
+};
+p.age = 30;
+```
 
+调试输出
+```rust
+#[derive(Debug)]
+struct varStruct{};
+println("{:?}",varStruct);
+```
 ##### **元组结构体**
+拥有结构体名的元组
 ```rust
 //define
 struct Color(u8, u8, u8);
@@ -85,6 +112,9 @@ let origin = Point(0.0, 0.0);
 //access
 black.0
 black.1
+//
+let Color(x,y,z)=black;
+let Point(a,b) = origin;
 ```
 
 **结构体所有权**
@@ -115,6 +145,7 @@ impl Rectangle {
 ```
 
 - 可以使用**函数调用方法**和**方法调用方法**
+
 ##### **静态方法(结构体关联函数)**
 - 参数无需`&self`, 不依赖实例执行
 - 调用静态方法的唯一方式是使用**函数调用语法**
@@ -129,8 +160,42 @@ enum Status {
 }
 ```
 
-#####  **匹配 match**
+创建枚举时，你可以使用显式的整数设定枚举成员的值
+```rust
+// C style
+enum Number2 {
+    Zero = 0.0,
+    One = 1.0,
+    Two = 2.0,
+}
+```
+
+
+
+#####  模式匹配
+######  match
 `match`语句让你能把Rust值与一系列**模式**进行比较。你可以把它想象成类型级别的`if`。如果`status`是`已完成`变体，执行第一块代码；如果是`进行中`或`待办`变体，则执行第二块代码。
+
+**完备性**
+`match`是**完备的**。你必须处理所有枚举变体。如果你遗漏了某个变体，Rust会在**编译时**阻止你并报错。
+
+```rust
+let res = match var{
+	val1=>res1,
+	val2=>res2,
+	val3 | val4 =>res3,
+	_ => res_other,
+}
+
+match var{
+	val=>{
+		block1;
+	},
+}
+
+```
+
+
 ```rust
 enum Status {
     ToDo,
@@ -148,106 +213,48 @@ impl Status {
 }
 ```
 
-##### 完备性
-`match`是**完备的**。你必须处理所有枚举变体。如果你遗漏了某个变体，Rust会在**编译时**阻止你并报错。
+
+######  matches!
+
+1. 判断变量取值是否在范围内
+	```rust
+	match!(var,iter1 | iter2 | iter3 )
+	```
+2. 对比枚举类取值
+	```rust
+	enum MyEnum {
+	    Foo,
+	    Bar
+	}
+	let v = MyEnum::Foo;
+	if matches!(e , MyEnum::Foo) {
+		count += 1;
+	}
+	```
 
 
-#####  **通配符**
-如果你不关心一个或多个变体，可以使用`_`模式作为通配符：
-```rust
-match status {
-	Status::Done => true,
-	_ => false 
-}
-```
-
-##### 变体
-在每个变体**附加数据**
-```rust
-enum Status {
-    ToDo,
-    InProgress {
-        assigned_to: String,
-    },
-    Done,
-}
-```
-
-访问变体数据需要使用模式匹配, 避免访问到不可用实例
-```rust
-match status {
-    Status::InProgress { assigned_to } => {
-        println!("Assigned to: {}", assigned_to);
-    },
-    Status::ToDo | Status::Done => {
-        println!("Done");
-    }
-}
-```
-
-实例
-```rust
-#[derive(Debug, PartialEq)]
-struct Ticket {
-    title: String,
-    description: String,
-    status: Status,
-}
-#[derive(Debug, PartialEq)]
-enum Status {
-    ToDo,
-    InProgress { assigned_to: String },
-    Done,
-}
-
-impl Ticket {
-    pub fn new(title: String, description: String, status: Status) -> Ticket {
-        Ticket {
-            title,
-            description,
-            status,
-        }
-    }
-    pub fn assigned_to(&self) -> &str {
-        match  &(self.status){
-            Status::InProgress { assigned_to}=>{
-                assigned_to
-            },
-            _=>{
-                panic!("");
-            },
-        }
-    }
-}
-```
-
-
-##### 绑定
-可将字段绑定到其他变量名
-```rust
-match status {
-    Status::InProgress { assigned_to: person } => {
-        println!("Assigned to: {}", person);
-    },
-    Status::ToDo | Status::Done => {
-        println!("Done");
-    }
-}
-```
-
-##### 枚举变体匹配中的分支判断
+###### if-let & let-else
 
 if-let
+将变量中的值保存到参数中,再对该参数进行操作
 ```rust
-impl Ticket {
-    pub fn assigned_to(&self) -> &str {
-        if let Status::InProgress { assigned_to } = &self.status {
-            assigned_to
-        } else {
-            panic!("");
-        }
-    }
-}
+// 普通
+if let new = ori {
+	
+} else {
+	
+};
+
+//结构体
+if let StructType{} = ori { };
+
+//元组
+if let ()= ori { };
+
+//枚举体
+if let EnumType::EnumVal() = ori { };
+if let EnumType::EnumVal{} = ori { };
+
 ```
 
 实例
@@ -271,7 +278,7 @@ impl Shape {
 
 
 let-else
-```
+```rust
 impl Ticket {
     pub fn assigned_to(&self) -> &str {
         let Status::InProgress { assigned_to } = &self.status else {
@@ -283,6 +290,143 @@ impl Ticket {
 ```
 
 
+
+
+###### match guard
+是一个位于 match 分支模式之后的额外 if 条件，它能为分支模式提供更进一步的匹配条件
+```rust
+// 在匹配值后面添加条件
+match num {
+	Some(x) if x < split => assert!(x < split),
+}
+```
+
+
+###### 枚举成员持有各类型的值
+在每个变体**附加数据**
+```rust
+enum Status {
+    ToDo,
+    InProgress {
+        assigned_to: String,
+    },
+    Done,
+}
+```
+
+初始化
+```rust
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+fn main() {
+    let msg1 = Message::Move{x:1,y:2};
+    let msg2 = Message::Write(String::from("hello,world")); 
+} 
+```
+
+###### 模式匹配获取成员中的值
+访问变体数据需要使用**模式匹配**, 避免访问到不可用实例
+
+```rust
+// 一般数据
+match status {
+    Status::InProgress { assigned_to } => {
+        println!("Assigned to: {}", assigned_to);
+    },
+}
+
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+//结构体
+match msg {
+	Message::Move{x:a,y:b} => {
+		assert_eq!(a, 1);
+		assert_eq!(b, 3);
+	},
+}
+
+//元组
+match msg {
+	Message::ChangeColor(r, g, b) => {
+		assert_eq!(g, 255);
+		assert_eq!(b, 0);
+	},
+}
+
+```
+
+
+
+###### 绑定
+可将字段绑定到其他变量名
+```rust
+match status {
+    Status::InProgress { assigned_to: person } => {
+        println!("Assigned to: {}", person);
+    },
+    Status::ToDo | Status::Done => {
+        println!("Done");
+    }
+}
+```
+
+
+##### 模式
+
+###### 范围匹配
+使用 `|` 可以匹配多个值, 而使用 `..=` 可以匹配一个闭区间的数值序列
+
+###### `@`重新绑定范围匹配变量
+`@` 操作符可以让我们将一个与模式相匹配的值绑定到新的变量上
+```rust
+match ori{
+	StructType{var1:nvar1@( ), var2:nvar2@( )}=>{
+	
+	}
+}
+```
+
+```rust
+match p {
+	Point { x, y: 0 }                         => {},
+	Point { x: 0..=5, y: t@ (10 | 20 | 30) }  => {},
+	Point { x, y }                            => {},
+}
+```
+
+######  `..` 忽略部分匹配值
+```rust
+fn main() {
+    let numbers = (2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048);
+    match numbers {
+        (first,..,last) => {},
+    }
+}
+```
+
+
+######  **通配符**
+如果你不关心一个或多个变体，可以使用`_`模式作为通配符：
+```rust
+match status {
+	Status::Done => true,
+	_ => false 
+}
+```
+
+
+
+
 ##### Option枚举类
 `Option`是Rust中表示**可空值**的类型。
 ```rust
@@ -292,6 +436,28 @@ enum Option<T> {
 }
 ```
 
+用例
+```rust
+
+// 填空让 `println` 输出，同时添加一些代码不要让最后一行的 `panic` 执行到
+fn main() {
+    let five = Some(5);
+    let six = plus_one(five);
+    let none = plus_one(None);
+
+    if let Some(n) = six {
+        println!("{}", n)
+    }else{
+        panic!("不要让这行代码运行！");
+    }  
+} 
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        None => None,
+        Some(i) => Some(i + 1),
+    }
+}
+```
 
 ### 10 泛型
 **函数**
@@ -649,6 +815,7 @@ pub trait TryInto<T>: Sized {
 println!("{}",varName);         //在输出的最后附加输出一个换行符
 println!("{0}{1}{0}",var0,var1);//按序号访问变量
 print!("{}",varName);
+print!("{:?}",varName); //Debug
 
 use std::io::stdin;
 stdin().read_line(&mut str_buf);

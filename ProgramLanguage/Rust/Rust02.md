@@ -51,7 +51,7 @@ fn implicitly_ret_unit() {
 }
 ```
 
-##### 不可达类型  `!`
+##### 不可达类型 `!`
 - **定义**：`!` 是一个特殊的类型，用于表示一个函数永远不会返回。这种类型的函数要么陷入无限循环，要么在某个点终止整个程序。
     
 - **用途**：主要用于标识那些不会正常返回的函数，例如：
@@ -73,17 +73,54 @@ fn panic_now() -> ! {
 
 
 
-##### 元组 `( , , )`
+##### 元组  `(T1, T2, ...)`
 元组是用一对 ( ) 包括的一组数据，可以包含不同种类的数据：
+
+初始化
 ```rust
 let tup:(i32,i64,u8)=(500,6.4,1);
 let (x,y,z)=tup;          //默认为不可变变量
 let (mut x,mut y)=(1,1);
 ```
 
+元组可以嵌套元组
+```rust
+
+```
 
 
-##### 数组`[ , , ]`:
+访问: 
+```rust
+// 使用下标做方法
+tup.0
+
+
+// 使用模式匹配来解构元组
+let tup = (1, 6.4, "hello");
+let (x,z,y) = tup;
+
+//解构式赋值
+let (x, y, z);
+(y,z,x) = (1, 2, 3);
+
+
+```
+
+做函数参数与返回值
+```rust
+fn main() {
+    let (x, y) = sum_multiply( (2,3) );
+}
+fn sum_multiply(nums: (i32, i32)) -> (i32, i32) {
+    (nums.0 + nums.1, nums.0 * nums.1)
+}
+```
+
+
+对输出元组元素个数有限制, 最多输出拥有**12个元素**的元组
+
+
+##### 数组 `[T; Length]` 
 要求数组长度编译时已知, 分配在栈上.
 
 - 初始化
@@ -197,13 +234,14 @@ let s1: &str = &var;
 
 ```
 
-
 - `String` <= `&str`
 ```rust
 String::from(var:&str)
 var.to_string()
 
 ```
+
+- `&String` 可以被隐式地转换成 `&str` 类型.
 
 ##### 字符串转义
 
@@ -267,14 +305,20 @@ map.entry("color").or_insert("red"); //安全插入
 
 
 
-##### 切片(引用) Slice
->事实上使用的是切片引用, 而非类型本身.
+##### 切片(引用) Slice `&[T]`
+>切片的长度无法在编译期得知, 因此无法直接使用切片类型, 事实上使用的是切片引用, 而非类型本身.
 >实质是一个胖指针, 一个切片引用占用了2个字大小的内存空间,包含指针和长度字.
 
+切片( 引用 )可以用来借用数组的某个连续的部分，对应的签名是 `&[T]`，数组的签名 `[T; Length]`。
+
+```rust
+let slice=&vec[0..n]
 
 
-`let slice=&vec[0..n]`
-`str` 和`String` 都支持切片操作
+```
+
+
+`str` 和`String`都支持切片操作
 
 ### 02变量常量
 
@@ -404,6 +448,39 @@ for i in iterObj {block}
 
 loop {block} //无限循环
 ```
+
+```rust
+break;
+break value; // 可以结合循环和break, 实现返回值的效果
+continue;
+
+```
+
+多层`loop`时,可为每层`loop`添加标签, 实现控制外层流的效果
+
+```rust
+let mut count = 0;
+'outer: loop {
+	'inner1: loop {
+		if count >= 20 {
+			break 'inner1;
+		}
+		count += 2;
+	}
+
+	count += 5;
+
+	'inner2: loop {
+		if count >= 30 {
+			break 'outer;
+		}
+		continue 'outer;
+	}
+}
+
+```
+
+
 
 ---
 
