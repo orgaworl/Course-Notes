@@ -462,16 +462,13 @@ fn plus_one(x: Option<i32>) -> Option<i32> {
 ### 10 泛型
 **函数**
 ```rust
-fn max<T>(array:&[T]) -> T {
-}
+fn max<T,U>(array:&[T]) -> U {}
 ```
 
 **结构体**
 ```rust
-struct Point<T> {
-    x: T,
-    y: T
-}
+struct Point<T,U> { x:T,y:U}
+struct SGen <T,U> (T,U);
 ```
 
 **枚举类**
