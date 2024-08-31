@@ -22,18 +22,21 @@ fn origin()->Self {}
 
 
 关联函数与方法最大的区别就是它第一个参数不是 `self` ，原因是它们不需要使用当前的实例.
-### 特性
-特性是Rust定义**接口**的方式。  
-特性定义了一组类型必须实现的方法，以满足特性的契约。
+### 特性 Trait
+特性是Rust定义**接口**的方式. 特性定义了一组类型必须实现的方法，以满足特性的契约. 告诉编译器一个特定的类型所具有的、且能跟其它类型共享的特性。我们可以使用特征通过抽象的方式来定义这种共享行为，还可以使用特征约束来限定一个泛型类型必须要具有某个特定的行为。
 
-定义特性: 不指定类型
+**定义特性: 不指定类型**
 ```rust
 trait <TraitName> {
     fn <method_name>(<parameters>) -> <return_type>;
+    fn show(&self) {
+        println!("{:?}", self);
+    } //可提供默认的定义实现
 }
 ```
+s
 
-实现特性: 指定类型
+**实现特性: 指定类型**
 ```rust
 impl <TraitName> for <TypeName> {
     fn <method_name>(<parameters>) -> <return_type> {
@@ -42,16 +45,48 @@ impl <TraitName> for <TypeName> {
 }
 ```
 
-调用特性
+**调用特性**
 ```rust
 use crate::<TraitName>;
 ```
 
-#### 孤儿规则
+**使用特征作为函数参数**
+```rust
+fn function(var:&impl TraitName){}
+```
 
+```rust
+trait Summary {
+    fn summarize(&self) -> String;
+}
+fn summary(t: &impl Summary) {
+    let _ = t.summarize();
+}
+```
+
+**使用特征作为函数返回值**
+```rust
+fn function()->&impl TraitName{}
+```
+
+#### 特征约束
+使用泛型参数时，我们往往需要为该参数指定特定的行为，这种指定方式就是通过特征约束来实现的. 
+```rust
+fn sum<T: std::ops::Add<Output = T>>(x: T, y: T) -> T {
+    x + y
+}
+```
+
+```rust
+fn sum<T>(x: T, y: T) -> T
+where
+    T: std::ops::Add<Output = T>,
+{
+    x + y
+}
+```
 #### 运算符重载
 通过**特质**实现,每个运算符都对应一个相应特质
-
 - Add
 - Sub
 - Mul
@@ -81,7 +116,18 @@ impl std::ops::Add for WrappingU32 {
     }
 }
 ```
-#### 派生宏
+
+
+```rust
+use std::ops;
+fn multiply<T: ops::Mul<Output = T>>(n1:T,n2:T)->T{
+    n1*n2
+}
+```
+
+
+
+#### Derive 派生宏
 
 **结构体解构**:将结构体分解为多个字段
 ```rust
@@ -96,8 +142,7 @@ let StructName{
 派生宏用于**自动为自定义类型实现一些常见的特质**。展开宏，会看到生成的代码在功能上等同于你手动编写的代码，尽管读起来可能稍显复杂：
 
 ```rust
-
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq,PartialOrd)]
 struct Ticket {
     title: String,
     description: String,
@@ -105,7 +150,17 @@ struct Ticket {
 }
 ```
 
-#### 特性界 Trait Bound
+常用宏:
+- `PartialEq,PartialOrd,Eq,Ord`
+- `Clone, Copy`
+- `Debug`
+- `Hash`
+- `Default`
+
+
+
+
+#### Trait Bound 特性界 
 ```rust
 pub fn min<T:PartialOrd>(left: T, right: T) -> T {
     if left <= right {
@@ -117,7 +172,8 @@ pub fn min<T:PartialOrd>(left: T, right: T) -> T {
 ```
 规定泛型函数中参数`T`必须实现的特性
 
-#### `Deref` 特性
+#### 重要特性
+##### `Deref` 特性
 
 简化定义:
 ```rust
@@ -141,7 +197,7 @@ impl Deref for String {
 ```
 `&String` 会自动转换为 `&str`
 
-#### `Sized` 特性
+##### `Sized` 特性
 
 如果一个类型的大小在编译时已知，则它是 `Sized` 的, 而不是DST. 
 使用`std::mem::size_of::<type>();`获知`Sized`类型大小
@@ -153,7 +209,7 @@ impl Deref for String {
 >特别地，`Sized` 也是一个**自动特质**。你不需要显式实现它；编译器会根据类型的定义自动为你实现。
 
 
-#### Supertrait / Subtrait
+##### Supertrait / Subtrait
 超集特性/子集特性
 
 `From: Sized` means:
@@ -161,7 +217,7 @@ impl Deref for String {
 - 任何实现了`From`的类型也必须实现`Sized`
 - `Sized`是`From`的**Supertrait**。
 
-####  `From` 和 `Into`特性
+#####  `From` 和 `Into`特性
 
 ```rust
 impl<T, U> From<U> for T
@@ -183,7 +239,7 @@ where
 let varT:T=varU.into()
 ```
 
-#### Deref 与 From 对比
+##### Deref 与 From 对比
 
 ```rust
 trait From<T> {
@@ -247,7 +303,7 @@ impl Power<&u32> for u32 {
     }
 }
 ```
-#### Clone 特性
+##### Clone 特性
 `clone`接受一个引用`self`并返回一个**相同类型的**新**拥有**实例.
 ```rust
 pub trait Clone {
@@ -255,7 +311,7 @@ pub trait Clone {
 }
 ```
 
-#### Copy特性
+##### Copy特性
 `Copy`特性是`Clone`特性的子特性, 如果一个类型实现了`Copy`，创建该类型的实例时就不需要显式调用`.clone()`，Rust会**隐式**地处理，无需介入。
 
 要求满足性质：
@@ -264,7 +320,7 @@ pub trait Clone {
 3. 类型不是可变引用（`&mut T`）
 
 
-#### Drop特性
+##### Drop特性
 `Drop`特性是一种机制，让你为类型定义**额外**清理逻辑，超出编译器自动为你做的部分。你在`drop`方法中放入的任何内容都会在值超出作用域时被执行。
 ```rust
 use std::ops::Drop;

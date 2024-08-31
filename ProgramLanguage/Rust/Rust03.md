@@ -465,6 +465,22 @@ fn plus_one(x: Option<i32>) -> Option<i32> {
 fn max<T,U>(array:&[T]) -> U {}
 ```
 
+**方法**
+```rust
+struct Point<T, U> {
+    x: T,
+    y: U,
+}
+impl<T, U>Point<T,U> {
+    fn mixup<P,Q>(self,poi:Point<P,Q>)->Point<T,Q>{
+        Point{
+            x:self.x,
+            y:poi.y,
+        }
+    }
+}
+```
+
 **结构体**
 ```rust
 struct Point<T,U> { x:T,y:U}
@@ -483,6 +499,54 @@ enum Result<T, E> {
     Err(E),
 }
 ```
+
+
+**使用**
+```rust
+// 自动推断类型
+let tmp=SGen(1,2);
+let res:i32 = max(array);
+
+// 手动指定类型
+let tmp=SGen::<i32,i32>(1,2);
+let res:i32 = max::<i32,i32>(array);
+```
+
+**实例**
+```rust
+fn sum< T:std::ops::Add<Output=T> >(x: T, y: T) -> T {
+    x + y
+}
+```
+
+#### Const 泛型-针对值的泛型
+
+const 泛型参数只能使用以下形式的实参:
+- 一个单独的 const 泛型参数.
+- 一个字面量 (i.e. 整数, 布尔值或字符).
+- 一个具体的 const 表达式, 表达式中不能包含任何 泛型参数.
+
+```rust
+fn foo<const N: usize>() {}
+
+fn bar<T, const M: usize>() {
+    foo::<M>(); // 1
+    foo::<2021>(); // 2
+    foo::<{20 * 100 + 20 * 10 + 1}>(); // 3
+    let _: [u8; M]; // 1
+}
+```
+
+
+```rust
+struct Array<T, const N: usize> {
+    data : [T; N],
+}
+fn print_array<T:std::fmt::Debug, const N: usize>(arr:[T;N]) {
+    println!("{:?}", arr);
+}
+```
+> 长度不同会导致类型不同： `Array<i32, 3>` 和 `Array<i32, 4>` 是不同的类型
 
 
 
