@@ -2,12 +2,46 @@
 
 ---
 ---
+# LaTex论文写作
 
+## 项目文件结构
+
+
+## 论文标准写作
+
+### 使用正确字体
+
+> The typeface in which a symbol appears helps to define what thes ymbol represents.
+
+- 数量/变量/符号-斜体
+	```latex
+	$t_\text{max}$
+	```
+- 单位符号-roman
+- 描述性术语符号-roman
+
+
+
+大数字自动分隔
+```latex
+\usepackage{siunitx}
+\num{123456789}
+```
+
+### 引用
+自动引用
+```latex
+\usepackage{hyperref}
+\autoref{fig:xxx}
+\autoref{tbl:xxx}
+\autoref{thm:xxx}
+```
 
 
 ## 示例
 
 
+```
 
 $$
 
@@ -38,7 +72,7 @@ $$
   \end{pmatrix}
 
 $$
-
+```
 
 
 

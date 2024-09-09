@@ -1,8 +1,15 @@
 ---
+title: "SQL"
+subtitle: "SQL语法"
+layout: post
+author: "orgaworl"
+header-style: text
 tags:
   - 编程语言
   - SQL
 ---
+
+
 ---
 
 ## SQL语句
@@ -127,11 +134,8 @@ SELECT [DISTINCT] [TOP num]
 ```
 
 expression:
-
 - 表达式
-
 - 聚合函数
-
 - 列
 
 conditon:
@@ -254,7 +258,7 @@ ON student.class_id = class.class_id
 对于空余字段，则显示 NULL 。也就是说，它能返回两个表中所有的关联信息，以及所有没有被关联到的信息。
 ```
 
-<img title="" src="../picture/sql-join.png" alt="join" style="zoom:80%;">
+![[sql-join.png]]
 
 ### 视图
 

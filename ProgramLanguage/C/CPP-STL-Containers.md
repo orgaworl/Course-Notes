@@ -333,7 +333,7 @@ map会按照键的顺序从小到大自动排序，键的类型必须可以比�
 if(mp.find(key)!=mp.end()) //存在
 
 // 插入元素
-mp。insert(pair<string,int>("H",1)
+mp.insert(pair<string,int>("H",1)
 
 ```
 
