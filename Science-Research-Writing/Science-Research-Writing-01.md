@@ -9,7 +9,7 @@ tags:
 ---
 >[!NOTE] chapter 1.1 - 1.2 
 
-## 文章结构 Structure
+## Structure 文章结构 
 
 ![](./pic/structure.png)
 
@@ -17,7 +17,7 @@ tags:
 
 > The shape represents the way information is ordered in the Introduction and the Discussion/Conclusion: in the Introduction you start out by being fairly general and gradually narrow your focus, whereas the opposite is true in the Discussion/Conclusion.
 
-## 时态 Tense
+## Tense 时态 
 - 一般现在时 Present Simple tense
 	- 在Intro中, `一般现在时`用以描述公认的事实或公理(但是否是事实往往取决于作者).
 	- 在Conclusion中, `一般现在时`用以表示结论足够Strong, 可以作为公理.
@@ -73,10 +73,7 @@ tags:
 
 
 
-
-
-
-## 语法 Grammar
+## Grammar 语法 
 
 
 

@@ -1,11 +1,11 @@
 ---
-title: "Rust02"
-subtitle: "Rust02"
+title: Rust02
+subtitle: 基本语法
 layout: post
-author: "orgaworl"
+author: orgaworl
 header-style: text
 tags:
- - Rust
+  - Rust
 ---
 
 ## 语法
@@ -478,6 +478,5 @@ let mut count = 0;
 }
 ```
 
----
-
-Author: [orgaworl@outlook.com](orgaworl@outlook.com)
+## References
+- 

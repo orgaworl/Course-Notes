@@ -1,12 +1,14 @@
 ---
-title: "Title"
-subtitle: "Subtitle"
+title: Title
+subtitle: Subtitle
 layout: post
-author: "orgaworl"
+author: orgaworl
 header-style: text
 tags:
- - default-tag
+  - default-tag
+  
 ---
+
 ## Title
 
 >[!NOTE] Note
@@ -18,17 +20,5 @@ tags:
 
 
 
-
-
-
-
-
-
-
-
-
----
-Author: **orgaworl**
-Email: [orgaworl@outlook.com](orgaworl@outlook.com)
-Github : [github.com/orgaworl/Course-Notes](https://github.com/orgaworl/Course-Notes)
-Create: `{{date}}` `{{time}}`
+## References
+- 

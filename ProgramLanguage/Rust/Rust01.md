@@ -1,11 +1,11 @@
 ---
-title: "Rust01"
-subtitle: "Rust01"
+title: Rust01
+subtitle: Rust基本管理
 layout: post
-author: "orgaworl"
+author: orgaworl
 header-style: text
 tags:
- - Rust
+  - Rust
 ---
 ## 语言特点
 
@@ -89,7 +89,7 @@ static_assertions = "1.1.0"
 ```
 
 ---
-### 9. 管理
+### 管理
 #### 内联模块
 ```rust
 //内联模块:模块声明和模块内容一起
@@ -177,3 +177,7 @@ pub mod ticket {
 
 ## 使用总结
 对于不进行修改,只进行读取的参数, 使用引用的方式进行传参.
+
+
+## References
+- 

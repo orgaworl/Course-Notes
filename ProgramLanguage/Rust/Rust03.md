@@ -1,11 +1,11 @@
 ---
-title: "Rust01"
-subtitle: "Rust01"
+title: Rust03
+subtitle: 进一步深入
 layout: post
-author: "orgaworl"
+author: orgaworl
 header-style: text
 tags:
- - Rust
+  - Rust
 ---
 ### 07 迭代器
 **特点**
@@ -926,3 +926,7 @@ let mut file = OpenOptions::new().append(true).open(path)?;
 file.write(content)?;  
 
 ```
+
+
+## References
+- 

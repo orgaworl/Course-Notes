@@ -1,11 +1,11 @@
 ---
-title: "Rust01"
-subtitle: "Rust01"
+title: Rust04
+subtitle: 方法、函数与特征
 layout: post
-author: "orgaworl"
+author: orgaworl
 header-style: text
 tags:
- - Rust
+  - Rust
 ---
 
 ### 方法
@@ -446,3 +446,7 @@ let arr = Box::new([0;1000]);
 #### DST动态大小类型=> Sized固定大小类型
 
 递归类型：在类型定义中又使用到了自身，或者说该类型的值的一部分可以是相同类型的其它值，这种值的嵌套理论上可以无限进行下去，所以 Rust 不知道递归类型需要多少空间
+
+
+## References
+- 
