@@ -1,4 +1,12 @@
-
+---
+title: "Rust01"
+subtitle: "Rust01"
+layout: post
+author: "orgaworl"
+header-style: text
+tags:
+ - Rust
+---
 ### 07 迭代器
 **特点**
 - **惰性求值**：迭代器不会立即计算其元素，而是在需要时才计算，这使得迭代器可以用于处理无限序列。例如，当调用 map() 或 filter() 方法时，并不会立即对集合进行转换或过滤，而是返回一个新的迭代器，只有当真正需要获取数据时，才会对数据进行转换或过滤。
@@ -887,10 +895,11 @@ stdin().read_line(&mut str_buf);
 - {{
 - }}
 - 其他字符通过 `\` 进行转义
+
 #### 文件读写
+
 ```rust
 use std::fs;
-
 //一次性读取
 let text = fs::read_to_string(path).unwrap();//文本文件
 let content = fs::read(path).unwrap();       //二进制文件
@@ -915,7 +924,5 @@ use std::io::prelude::*;
 use std::fs::OpenOptions;  
 let mut file = OpenOptions::new().append(true).open(path)?;  
 file.write(content)?;  
-
-
 
 ```

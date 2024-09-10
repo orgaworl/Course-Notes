@@ -1,4 +1,12 @@
-
+---
+title: "Rust01"
+subtitle: "Rust01"
+layout: post
+author: "orgaworl"
+header-style: text
+tags:
+ - Rust
+---
 ## 语言特点
 
 - 内存安全

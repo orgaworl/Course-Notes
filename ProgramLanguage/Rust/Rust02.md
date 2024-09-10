@@ -1,11 +1,11 @@
 ---
+title: "Rust02"
+subtitle: "Rust02"
+layout: post
+author: "orgaworl"
+header-style: text
 tags:
-  - 编程语言
-  - 静态语言
-  - 面向对象
-  - 物理机运行
-  - code
-  - rust
+ - Rust
 ---
 
 ## 语法
@@ -52,25 +52,24 @@ fn implicitly_ret_unit() {
 ```
 
 ##### 不可达类型 `!`
+
 - **定义**：`!` 是一个特殊的类型，用于表示一个函数永远不会返回。这种类型的函数要么陷入无限循环，要么在某个点终止整个程序。
     
 - **用途**：主要用于标识那些不会正常返回的函数，例如：
-```rust
-fn loop_forever() -> ! {
-    loop {
-        // 永远循环
-    }
-}
-fn panic_now() -> ! {
-    panic!("This function will not return");
-}
 
-```
+	```rust
+	fn loop_forever() -> ! {
+	    loop {
+	        // 永远循环
+	    }
+	}
+	fn panic_now() -> ! {
+	    panic!("This function will not return");
+	}
+	```
+
 
 **发散函数**( Diverging function )不会返回任何值，因此它们可以用于替代需要返回任何值的地方,其返回值是`!`.
-
-
-
 
 
 ##### 元组  `(T1, T2, ...)`
@@ -477,11 +476,8 @@ let mut count = 0;
 		continue 'outer;
 	}
 }
-
 ```
-
-
 
 ---
 
-author email: orgaworl@outlook.com
+Author: [orgaworl@outlook.com](orgaworl@outlook.com)

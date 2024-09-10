@@ -7,8 +7,6 @@ header-style: text
 tags:
  - default-tag
 ---
-
----
 ## Title
 
 >[!NOTE] Note
@@ -26,8 +24,11 @@ tags:
 
 
 
+
+
+
 ---
 Author: **orgaworl**
-Email: orgaworl@outlook.com
-Github : [orgaworl/Course-Notes: SDU CyberScience (github.com)](https://github.com/orgaworl/Course-Notes)
+Email: [orgaworl@outlook.com](orgaworl@outlook.com)
+Github : [github.com/orgaworl/Course-Notes](https://github.com/orgaworl/Course-Notes)
 Create: `{{date}}` `{{time}}`

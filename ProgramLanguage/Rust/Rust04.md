@@ -1,3 +1,13 @@
+---
+title: "Rust01"
+subtitle: "Rust01"
+layout: post
+author: "orgaworl"
+header-style: text
+tags:
+ - Rust
+---
+
 ### 方法
 参数以`self`变体作为开始, 方法通过 `.` 进行调用.
 ```rust
