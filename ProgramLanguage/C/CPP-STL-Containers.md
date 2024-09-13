@@ -162,10 +162,10 @@ queue<typeN>var;
 priority_queue<typeN> q;
 
 q.top()    //访问队首元素
-q.push()    //入队
+q.push()   //入队
 q.pop()    //堆顶（队首）元素出队
-q.size()    //队列元素个数
-q.empty()    //是否为空
+q.size()   //队列元素个数
+q.empty()  //是否为空
 //没有clear()
 //优先队列只能通过top()访问队首元素（优先级最高的元素）
 ```
@@ -299,7 +299,6 @@ string str5(times, str);      // times*str
 **操作**
 
 ```cpp
-
 s.push_back(str)
 s.insert(pos,element)
 s.append(str)
