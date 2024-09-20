@@ -46,7 +46,6 @@ replace_if(iterator beg,iterator end,_Pred,newvalue);
 ```
 
 
-
 ```cpp
 //求交集的两个容器必须是有序序列，而且同序（同升或同降），否则报错。
 set_intersection(iterator beg1,iterator end1,

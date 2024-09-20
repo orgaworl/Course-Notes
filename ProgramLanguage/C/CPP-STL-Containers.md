@@ -7,9 +7,9 @@
 | 迭代器（iterators） | 迭代器用于遍历对象集合的元素。这些集合可能是容器，也可能是容器的子集。                          |
 
 - 容器（Containers）
-- 分配器（Allocators）
-- 算法（Algorithm）
-- 迭代器（Iterators）
+- 分配器（Allocators） 
+- 算法（Algorithm） `<algorithm>`  `<numeric>`
+- 迭代器（Iterators）`<iterator>`
 - 适配器（Adapters）
 - 仿函数（Functors）
 
@@ -192,6 +192,8 @@ priority_queue<int, vector<int>, cmp1> q1; // 小根堆
 ```
 
 ### 1.4 deque
+双向队列, 它底层实现是一个**双端队列**, 可用在头部和尾部添加或删除元素.
+内部采用分段连续的内存空间来存储元素，在插入元素的时候随时都可以重新增加一段新的空间并链接起来，因此虽然提供了随机访问操作，但访问速度和vector相比要慢
 
 ```c
 deque<typeN>var;
@@ -393,12 +395,24 @@ bitset<n>bs //n必须为常量
 |`b.flip(pos)`|把b中pos位置取反|
 |`b.to_ulong()`|用b中同样的二进制位返回一个unsigned long值|
 
+### list
+链表, 插入/删除元素的时间复杂度都是O(1), 不支持按下标访问(随机访问)。
 
 
 
 
 
 
+## STL原理与使用
+### STL迭代器删除元素
 
----
-author email: orgaworl@outlook.com
+对于顺序容器(vector,deque)而言，使用erase删除元素的迭代器，**会使后面所有的迭代器会失效，后面每个迭代器都会向前移动一个位置**，erase返回**下一个有效的迭代器**.
+
+对于有序关联容器(set/multiset, map/multimap)而言, 删除元素并不会导致后面迭代器失效，因为他们底层实现是红黑树，所以**只需要递增迭代器**即可.
+
+对于无序关联容器，底层实现是哈希表，删除元素会导致迭代器失效，erase会返回下一个有效的迭代器。
+
+对于list而言，它使用了不连续分配的内存，因此erase会返回下一个有效的迭代器，上面两种方式都可以使用。
+
+
+

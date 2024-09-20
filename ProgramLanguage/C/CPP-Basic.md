@@ -13,8 +13,45 @@ tags:
     -   `数据类型 变量名=初始值`
 
 -   常量
-    -   `#define 变量名 常量值`
     -   `const 数据类型 变量名=常量值`
+    - `constexpr`
+
+>传统const的问题在于“双重语义”，既有“只读”的含义，又有“常量”（不可改变）的含义，而**constexpr严格定义了常量** 为不可改变。
+
+
+### const for poiter
+```cpp
+ int b = 1;
+ //C++规定const在类前和类后是一样的。
+ const int *a = &b; //一个`int*`型指向常量的指针；该指针可以指向其它的变量但无法修改它们的值。
+ int const *a = &b; //同上一行
+ int* const a = &b; //一个常量的指向`int*`型的指针；它无法指向别的地址。
+ const int* const a = &b; //既不能指向其它变量的地址，也不能修改值。
+```
+
+### const for function
+
+
+```cpp
+const int func(){};  //函数返回const int类型
+int const func(){};  // 函数返回const int类型
+void func() const{}; //通常是在类中，表示该函数不修改成员变量
+```
+
+### const for class
+
+类的const实例只能调用类的const成员函数.
+```cpp
+class A{
+    public:
+    void test1() const;
+    void test2();
+};
+
+const A classA;
+classA.test1();//正确
+classA.test2();//错误，对象含有与成员 函数 "A::test2" 不兼容的类型限定符 -- 对象类型是:  const A
+```
 
 ---
 
@@ -168,8 +205,8 @@ enum 枚举名{
 ### 类型转换
 
 - 强制/显式类型转换explicit conversion  
-    - (类型名) 待转换数据 // C风格转换语句  
-    - 类型名(待转换数据) //C++风格转换语句  
+    - `(type)var` // C风格转换语句  
+    - `type(var)` //C++风格转换语句  
     - 问题  : 目标类型表示范围小于原类型  
         - 数值截断  
         - 精度丢失  
@@ -187,7 +224,7 @@ enum 枚举名{
             int m；doule n;  
             n=m; //先将m转为double再进行赋值
 			```
-    - 默认int和**double**
+    - 数字类型默认int和**double**, 类型转换发生于:
 	- 1. 初始化与赋值：`int counter = 2.718; float f =2111222333;`  
 	- 2. 函数调用：传递参数与返回值  
 	- 3. 算术运算符求解：`7 / 2.718;`  
@@ -204,6 +241,10 @@ enum 枚举名{
 	    - 只保留右边字节存储的数据  
 
 	- 尽量避免“大类型”向“小类型”的自动转换
+
+- C++ 中四种强制类型转换
+	- ``
+
 ### 数组
 
 1 存放相同类型数据元素  
@@ -605,13 +646,13 @@ enum 枚举名{
         -   只有本文件能访问该变量(默认即为 static)
     -   local
         -   程序开始时初始化
-    -   class
-        -   可以通过`类名.方法名`直接访问.
+    -   class. val
+        -   可以通过 `类名::变量名` 直接访问,  实现多个不同的类实例之间的数据共享.
 -   函数
     -   global
         -   文件外不能访问该函数
     -   class.method
-        -   可以通过`类名.方法名`直接访问.
+        -   可以通过 `类名::方法名` 直接访问.
 
 ### extern
 
@@ -619,7 +660,7 @@ enum 枚举名{
     -   global
         -   文件外能访问
 -   函数
-    -   global
+    -   global function
         -   文件外能访问(默认)
 
 ---
@@ -851,7 +892,7 @@ strlen()
 	
 	-   随机数种子
 	-   `srand `
-	-   `#include<ctime> srand((unsigned int)time(null));  ``
+	-   `#include<ctime> srand((unsigned int)time(null)); 
 
 
 ### 变量属性
