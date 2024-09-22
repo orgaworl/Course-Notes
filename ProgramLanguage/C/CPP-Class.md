@@ -8,25 +8,23 @@ C++面向对象的三大特性为：封装、继承、多态
 ### 1.1.1 文件拆分
 
 -   class 的文件拆分
-    -   .h
+    -   `.h`
         -   `#pragma once  `
             `using namespace std;  `
             原文件删除函数的详细内容,加 ;  
             若存在嵌套,则加#include<被嵌套.h>
-    -   .cpp
+    -   `.cpp`
         -   `#include" .h"  `
             `#include<iostream> //若使用`  
             ​ 只写类成员函数具体实现,返回类型和函数名之间加作用域
-    -   main
+    -   `main`
         -   `#include" .h"  `
         -   类中的静态常量在此赋值
 
 ### 1.1.2 封装
 
 -   三大特性:封装、继承、多态
--   封装
-    -   将属性和行为(函数表示)加以权限控制
-
+-   封装: 将属性和行为(函数表示)加以权限控制
     -   语法
         -   定义
             ```cpp
@@ -36,22 +34,16 @@ C++面向对象的三大特性为：封装、继承、多态
             ​属性/行为
             ​ };
             ```
-        -   访问用 .
+        -   访问用 `.`
             -   `类名.属性/行为`
     -   成员
-
         -   属性(成员属性,成员变量)
         -   行为(成员函数,成员方法)
 
     -   访问权限
-        -   public 公共权限
-            -   类内可以访问 类外可以访问
-
-        -   protected 保护权限
-            -   类内可以访问 类外不可以访问
-
-        -   private 私有权限
-            -   类内可以访问 类外不可以访问
+        -   public 公共权限: 类内可以访问 类外可以访问
+        -   protected 保护权限: 类内可以访问 类外不可以访问
+        -   private 私有权限: 类内可以访问 类外不可以访问
 
     -   struct 和 class 的区别  
          默认的访问权限不同
@@ -63,61 +55,46 @@ C++面向对象的三大特性为：封装、继承、多态
 
 
 -   类内声明+类外定义
-    -   `void class_name : : func_01( ) { }  `
-    -   `class_name : : class_name( ){ }`  
-         构造函数
--   对象指针(一般 new)
+    -   `void class_name :: func_01( ) { }  `
+    -   `class_name :: class_name( ){ }`  
 
 ## 1.2 初始化与清理
 
 -   对象初始化和清理  
      编译器自动调用两函数，完成对象初始化和清理工作。
+-      默认情况下，c++编译器至少给一个类添加 3 个函数
+	-   1．默认构造函数(无参，函数体为空)
+	-   2．默认析构函数(无参，函数体为空)
+	-   3．默认拷贝构造函数，对属性进行值拷贝
+
+- 如果用户定义有参构造函数，c++不在提供默认无参构造，但是会提供默认拷贝构造.
+- 如果用户定义拷贝构造函数，c++不会再提供其他构造函数.
+
+
+### 构造函数
 -   构造函数  
      创建对象时为对象的成员属性赋值，构造函数由编译器自动调用，无须手动调用。
 
-    -   类名(){}  
+    -   `类名(){}`  
          构造函数，没有返回值也不写 void  
          构造函数可以有参数，因此可以发生重载  
          程序在调用对象时候会自动调用构造，无须手动调用,而且只会调用一次
 
     -   分类
-        -   默认
-
-        -   有参
+        -   默认构造
+        -   有参构造
             ```cpp
               person(1234){
               ​m_age=1234;
               ​}
             ```
-        -   拷贝构造函数
-            ```cpp
-              person(const person&p){
-              ​ m_age=p.m_age;
-              ​}
-            ```
-            -   函数值传递中实参传给形参(不改变实参)
-                ```cpp
-                  //相当于Person p1 = p;
-                  void doWork(Person p1) {}
-                  ​
-                  void test02() {
-                  Person p; //无参构造函数
-                  doWork(p);
-                  }
-                ```
-            -   函数 return 局部对象(return 的不是原版,而是 copy)
-                ```cpp
-                Person doWork2()
-                {
-                Person p1; //默认
-                cout << (int *)&p1 << endl;
-                return p1; //拷贝
-                }
-                void test03()
-                {
-                Person p = doWork2();//拷贝
-                }
-                ```
+        -   拷贝构造
+			```cpp
+			person(const person&p){
+				​m_age=p.m_age;
+			​}
+			```
+
     -   调用方式
         -   括号法
             -   调用默认构造函数  
@@ -136,40 +113,53 @@ C++面向对象的三大特性为：封装、继承、多态
             -   person p6=10;
             -   person p6=p4;
 
-    -   -   默认情况下，c++编译器至少给一个类添加 3 个函数
 
-            -   1．默认构造函数(无参，函数体为空)
+### 拷贝
+-   拷贝
+	-   浅拷贝  
+		 无 new 时用
+		-   浅拷贝： 将原对象或原数组的引用直接赋给新对象，新数组，新对象／数组只是原对象的一个引用  
 
-            -   2．默认析构函数(无参，函数体为空)
+	-   深拷贝：在堆区重新申请空间拷贝操作  
+		 不改变  
+		 ​ 用在有开辟在堆区属性时  
+		 ​ 否则析构 delete 重复清空,导致错误
+		-   创建一个新的对象和数组，将原对象的各项属性的“值”（数组的所有元素）拷贝过来，是“值”而不是“引用”，新对象跟原对象不共享内存，修改新对象不会改到原对象
+			```cpp
+			  Person(int age ,int height) {
+			  ​ m_height = new int(height)
+			  ​ }
+			  ​public:
+			  ​int* m_height;
+			```
+-   初始化列表
+	-   `构造函数()：属性1(值1),属性2（值2）...  ​{ }`
 
-            -   3．默认拷贝构造函数，对属性进行值拷贝
-
-        -   如果用户定义有参构造函数，c++不在提供默认无参构造，但是会提供默认拷贝构造  
-             person p1; //错误
-
-        -   如果用户定义拷贝构造函数，c++不会再提供其他构造函数  
-
-
-    -   拷贝
-        -   浅拷贝  
-             无 new 时用
-            -   浅拷贝： 将原对象或原数组的引用直接赋给新对象，新数组，新对象／数组只是原对象的一个引用  
-
-        -   深拷贝：在堆区重新申请空间拷贝操作  
-             不改变  
-             ​ 用在有开辟在堆区属性时  
-             ​ 否则析构 delete 重复清空,导致错误
-            -   创建一个新的对象和数组，将原对象的各项属性的“值”（数组的所有元素）拷贝过来，是“值”而不是“引用”，新对象跟原对象不共享内存，修改新对象不会改到原对象
-                ```cpp
-                  Person(int age ,int height) {
-                  ​ m_height = new int(height)
-                  ​ }
-                  ​public:
-                  ​int* m_height;
-                ```
-    -   初始化列表
-        -   `构造函数()：属性1(值1),属性2（值2）...  ​{ }`
-
+- 拷贝实例:
+	-   (1). 函数值传递中实参传递拷贝给形参, 不改变实参
+		```cpp
+		  //相当于Person p1 = p;
+		  void doWork(Person p1) {}
+		  ​
+		  void test02() {
+		  Person p; //无参构造函数
+		  doWork(p);
+		  }
+		```
+	-   (2). 函数 return 局部对象(return 的不是原版,而是 copy)
+		```cpp
+		Person doWork2()
+		{
+		Person p1; //默认
+		cout << (int *)&p1 << endl;
+		return p1; //拷贝
+		}
+		void test03()
+		{
+		Person p = doWork2();//拷贝
+		}
+		```
+### 析构函数
 -   析构函数  
      主要作用在于对象销毁前系统自动调用，执行一些清理工作。
     -   `~类名(){}`
@@ -222,32 +212,32 @@ C++面向对象的三大特性为：封装、继承、多态
 ### 1.3.2 this 指针
 -   this 指针  
      默认存在直接使用
-    -   -   -   空指针调用成员函数
-                ```cpp
-                class Person {  
-                    void ShowClassName() {
-                    cout << "Person 类!" << endl; 
-                    }  
-                    void ShowPerson()  
-                    {  
-                    if (this == NULL) {return; }  
-                    cout << mAge << endl;  
-                    }  
-                    int mAge;  
-                    };
-                    void test01()  
-                    {  
-                    Person \* p = NULL;  
-                    p->ShowClassName(); //空指针，可以调用成员函数  
-                    p->ShowPerson(); //成员函数中用到了this指针,不可,需判断指针是否空  
-                    }
-					```
+    -  空指针调用成员函数
+	```cpp
+	class Person {  
+		void ShowClassName() {
+			cout << "Person 类!" << endl; 
+		}  
+		void ShowPerson()  
+		{  
+			if (this == NULL) {return; }  
+			cout << mAge << endl;  
+		}  
+		int mAge;  
+	};
+	void test01()
+	{  
+		Person \* p = NULL;  
+		p->ShowClassName(); //空指针，可以调用成员函数  
+		p->ShowPerson(); //成员函数中用到了this指针,不可,需判断指针是否空  
+	}
+	```
     -   解决名称冲突  
          `this->age=age;`  
          //在成员变量前加->区分成员变量与形参
 
     -   返回对象本身  
-         `return\*this`
+         `return *this`
 
         -   可用于(链式编程)连续调用函数  
 	        ```cpp
@@ -279,6 +269,9 @@ C++面向对象的三大特性为：封装、继承、多态
     -   **this 指针只能用在非静态成员内部**
 
 ---
+
+
+
 ### 1.3.3 友元
 
 -   友元 friend  
@@ -299,24 +292,24 @@ C++面向对象的三大特性为：封装、继承、多态
 -   加法运算符
     -   通过成员函数重载
 		``` cpp
-           Person operator+(Person& p) //this 为前,传入为右  
-            {  
-	            Person temp;  
-	            temp.m_A = this->m_A + p.m_A;
-	            temp.m_B = this->m_B + p.m_B;
-	            return temp;
-            }
-            Person p3=p1+p2;
+	   Person operator+(Person& p) //this 为前,传入为右  
+		{  
+			Person temp;  
+			temp.m_A = this->m_A + p.m_A;
+			temp.m_B = this->m_B + p.m_B;
+			return temp;
+		}
+		Person p3=p1+p2;
 		```
     -   通过全局函数重载
-        ```cpp
-		    Person operator+(const Person& p1, const Person& p2) {  
-	            Person temp(0, 0);  
-	            temp.m_A = p1.m_A + p2.m_A;  
-	            temp.m_B = p1.m_B + p2.m_B;  
-	            return temp;  
-            }
-        ```
+		```cpp
+		Person operator+(const Person& p1, const Person& p2) {  
+			Person temp(0, 0);  
+			temp.m_A = p1.m_A + p2.m_A;  
+			temp.m_B = p1.m_B + p2.m_B;  
+			return temp;  
+		}
+		```
 -   左移运算符<<
     -   不建议用成员函数重载
     -   通过全局函数重载
@@ -565,3 +558,4 @@ C++面向对象的三大特性为：封装、继承、多态
 
 ---
 author email: orgaworl@outlook.com
+
