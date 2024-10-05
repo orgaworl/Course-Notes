@@ -1,0 +1,23 @@
+{
+  "pdfExportSettings": {
+    "includeName": true,
+    "pageSize": "A4",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 70
+  },
+  "showLineNumber": false,
+  "attachmentFolderPath": "./pic",
+  "spellcheck": false,
+  "autoPairMarkdown": true,
+  "autoPairBrackets": false,
+  "alwaysUpdateLinks": true,
+  "newLinkFormat": "relative",
+  "newFileLocation": "folder",
+  "useMarkdownLinks": true,
+  "promptDelete": true,
+  "newFileFolderPath": "temp",
+  "readableLineLength": false,
+  "strictLineBreaks": false,
+  "foldHeading": true
+}
