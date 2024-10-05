@@ -1,60 +1,83 @@
-## Basic Concept
 
-| 组件             | 描述                                                           |
-| -------------- | ------------------------------------------------------------ |
-| 容器（Containers） | 容器是用来管理某一类对象的集合。C++ 提供了各种不同类型的容器，比如 deque、list、vector、map 等。 |
-| 算法（Algorithms） | 算法作用于容器。它们提供了执行各种操作的方式，包括对容器内容执行初始化、排序、搜索和转换等操作。             |
-| 迭代器（iterators） | 迭代器用于遍历对象集合的元素。这些集合可能是容器，也可能是容器的子集。                          |
-|                |                                                              |
+## Lib
 
-- 容器（Containers）
-- 分配器（Allocators） 
-- 算法（Algorithm） `<algorithm>`  `<numeric>`
-- 迭代器（Iterators）`<iterator>`
-- 适配器（Adapters）
-- 仿函数（Functors）
+```cpp
+//STL container
+#include <vector>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <deque>
+#include <string>
+#include <pair>
 
+#include <algorithm>>
+#include <isotream>
 
----
+#include <cstring> //strlen()、strcat()
+#include <cstdlib> // min()、max()
+#include <cstdio>  // scanf()、printf()
+#include <cmath>   // log()、sin()、pow()
+
+#include <string.h>
+#include <stdlib.h>   
+#include <stdio.h>
+#include <math.h>
+
+```
+
+## 编译优化
+```cpp
+//解决爆栈，手动加栈，必须放在头文件之前
+#pragma comment(linker,"/STACK:1024000000,1024000000")
+
+#define INF 0x3F3F3F3F
+memset(buf,0x3F,n);
+
+```
 
 ## Containers
 
-打勾的是本次将会详细讲解的，加粗的是算法竞赛中有必要学习的。
+
 
 - 顺序容器
-  - [ ] **array**
-  - [x] **vector**
-  - [ ] **deque**
-  -  [ ] forward_list
-  - [ ] **list**
+	- **array**
+	-  **vector**
+	-  **deque**
+	-  forward_list
+	- **list**
 
 - 关联容器
-  - [x] **set**
-  - [x] **map**
-  - [ ] **multiset**
-  - [ ] **multimap**
+	- **set**
+	- **map**
+	- **multiset**
+	- **multimap**
 
 - 无序关联容器
-  - [ ] **unordered_set**
-  - [ ] **unordered_map**
-  - [ ] **unordered_multiset**
-  - [ ] **unordered_multimap**
+	- **unordered_set**
+	- **unordered_map**
+	- **unordered_multiset**
+	- **unordered_multimap**
 
 - 容器适配器
-  - [x] **stack**
-  - [x] **queue**
-  - [x] **priority_queue**
-  - flat_set
-  - flat_map
-  - flat_multiset
-  - flat_multimap
+	- **stack**
+	- **queue**
+	- **priority_queue**
+	- flat_set
+	- flat_map
+	- flat_multiset
+	- flat_multimap
 
 - 字符串
-  - [x] **string** (basic_string\<char\>)
+	- **string** (basic_string\<char\>)
 
 - 对与元组
-  - [x] **pair**
-  - [ ] **tuple**
+	- **pair**
+	- **tuple**
+
+
+---
 
 ### 1.1 vector
 

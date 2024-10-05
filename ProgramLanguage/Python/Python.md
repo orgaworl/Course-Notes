@@ -5,81 +5,10 @@ tags:
 - Python
 
 ---
-
----
-
-## 基础
-
-- 注释说明  
-  
-  - `#单行注释`  
-  - `''' 多行注释 '''`  
-
-- 模块引入  
-  
-  - `import math #引入整个模块`  
-  - `from math import abs #引入模块的部分`  
-
-- 字符编码  
-  
-  - `#ASCII编码`  
-  
-  - `#拓展ASCII编码`  
-  
-  - `#Unicode编码`
-    
-    ```python
-    word=chr(int(input("enter a int for a char")))
-    code=ord(input("enter a char for a code"))
-    ```
-  
-  - `#UTF-8编码`  
-  
-  - `#编码转换`  
-    
-    ```python
-    str_.encode(encoding='UTF-8')#编码
-    str.decode(encoding='UTF-8')#解码  
-    ```
-
-- 对象
-  
-  - 在python中处理的一切都是对象, 由标识（Identity) 、类型（type)、值（value)组成  
-  - `id(obj)`可返回对象 obj 的标识  
-  - `type(obj)`获得对象的所属类型  
-  - `print(obj)`可以直接打印出值  
-
-- 变量  
-  
-  - 表示/指向特定值的名称，变量存储是对象内存的引用/地址  
-  - 基于值的内存管理方式，如果为不同变量赋值为相同值，这个值在内存中只有一份，多个变量指向同一块内存地址  
-
-- 内存管理  
-  
-  - 多个变量赋相同的值,变量都指向唯一的值的内存地址  
-  - 多个变量赋相同的列表,变量指向不同的列表内存地址  
-  - 变量复制实则为对变量的引用  
-  - 自动内存管理功能，对于没有任何变量指向的值，Python自动将其删除。Python会跟踪所有的值，并自动删除不再有变量指向的值。  
-  - 也可显式使用del命令删除不需要的值或显式关闭不再需要访问的资源  
-
-- 模块管理PIP  
-  
-  - sys.modules.items() 显示所有预加载模块信息  
-
-- 脚本之 __name__ 属性  
-  
-  - 作为模块 ,则 _name__=moudleName  
-    
-    - 作为脚本独立运行,则 __name_="__main__"  
-
-- [-5,256]间的int类型也适用于驻留机制
-
----
-
-## 02.运算符
-
+## 1. 基础数据类型
 - 数据类型  
-  
+
+### 数字
   - Number  
     - 进制  
       - 常用:0o8进制 0x十六进制 0b二进制  
@@ -91,65 +20,66 @@ tags:
 
             - 支持在数字中间位置使用单个下划线作为分隔来提高数字的可读性，类似于数学上使用逗号作为千位分隔符。1_000_000==1000000 1_2_3_4==1234 1_2 + 3_4j==(12+34j) 1_2.3_45==12.345  
     
-    
-    - String  
-        不存在单个字符
-        - 创建  
-            - str_=''' this is a long sentence '''  
-            - str_=str(obj) str_=repr(obj)  
-            - 空字符串为'' 或 ""  
-            - 单引号、双引号、三单引号、三双引号可以互相嵌套  
-        - 访问  
-            - str_[ [start] : [end] : [step] ]  
-        - 运算  
-            - + * 关系运算符 in not in  
-        - 函数  
-            - #查找  
-                - str_.find(subStr[,beg[,end]])  
-                - str_rfind(subStr[,beg[,end]])  
-                - str_.startwith(subStr) #检查是否以子字符串开始  
-            - #替换 
-                - str_.replace(oldStr,newStr[,maxTimes])  
-            - #拆分  
-                - str_.split(sep="分隔符",num=分割次数)  
-            - #拼接  
-                - +  
-                - x= '1234''abcd'  
-                - sep.join(str_list)  
-            - #格式化  
-                - ’%总长.小数点后位数f ’ %a  
-                - “””%d %s””” %(1, ”word” )  
-    
-            - #原始字符串  
-                - 加r/R 表示原始字符串,字符串中转义字符不识别.  
-    
-        - print('我是\u80E1\u7A0B\u745C')#四位十六进制数表示Unicode字符我是胡程瑜  
+### 字符串
+- String  
+	不存在单个字符
+	- 创建  
+		- str_=''' this is a long sentence '''  
+		- str_=str(obj) str_=repr(obj)  
+		- 空字符串为'' 或 ""  
+		- 单引号、双引号、三单引号、三双引号可以互相嵌套  
+	- 访问  
+		- str_[ [start] : [end] : [step] ]  
+	- 运算  
+		- + * 关系运算符 in not in  
+	- 函数  
+		- #查找  
+			- str_.find(subStr[,beg[,end]])  
+			- str_rfind(subStr[,beg[,end]])  
+			- str_.startwith(subStr) #检查是否以子字符串开始  
+		- #替换 
+			- str_.replace(oldStr,newStr[,maxTimes])  
+		- #拆分  
+			- str_.split(sep="分隔符",num=分割次数)  
+		- #拼接  
+			- +  
+			- x= '1234''abcd'  
+			- sep.join(str_list)  
+		- #格式化  
+			- ’%总长.小数点后位数f ’ %a  
+			- “””%d %s””” %(1, ”word” )  
+
+		- #原始字符串  
+			- 加r/R 表示原始字符串,字符串中转义字符不识别.  
+
+	- print('我是\u80E1\u7A0B\u745C')#四位十六进制数表示Unicode字符我是胡程瑜  
 
 
-        - 字符编码  
-            - `ord(ele)`  获取ASCII码
-            - `chr(ele)`  获取ASCII对应字符
-    
-        - 格式化输出  
-            - `: 填充符 对齐方式 符号说明 [ [#] 进制] 宽度 .浮点数精度f`  
+	- 字符编码  
+		- `ord(ele)`  获取ASCII码
+		- `chr(ele)`  获取ASCII对应字符
+
+	- 格式化输出  
+		- `: 填充符 对齐方式 符号说明 [ [#] 进制] 宽度 .浮点数精度f`  
 
 - 数据类型分类  
   - 变量  
     - 列表 字典 集合  
     - 常量 
     - 字符串 元组  
+
+## 02.运算符
 - 运算符  
-  - 算术运算符  
-      优先级与数学一致
+  - 算术运算符: 优先级与数学一致
     - `**`  幂次  
 	- `//`  整除，python向下-∞取整，cpp向零取整
 	- `*`  字符串重复
 	- `+`  字符串拼接  
 	- `%`  取余 ,正负由两数共同决定
-		- 9%-4 == -3  
-			9 = (-4)*(-3) + (-3)
-		- -9%4 == 3  
-			-9 = (4)*(-3) + (3)
+		- `9%-4 == -3 `
+			`9 = (-4)*(-3) + (-3)`
+		- `-9%4 == 3`  
+			`-9 = (4)*(-3) + (3)`
 		- `x%y==x-(x//y)*y`  
     
     
@@ -408,7 +338,7 @@ list.sort()
         - =[公式 for i in 可迭代 if condition]  
             
     - 空列表  
-        - list_=[ ]  
+        - list_=[ ] 
         - list_=list( )  
             
     - 列表中包含的是元素值的引用，而不是直接包含元素值  
