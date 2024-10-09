@@ -6,7 +6,6 @@ author: orgaworl
 header-style: text
 tags:
   - default-tag
-date updated: 2024-09-14 11:40
 ---
 
 ## Title

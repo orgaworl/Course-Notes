@@ -1,3 +1,7 @@
+---
+date created: 2024-10-06 22:22
+---
+
 # JavaScript
 
 ```javascript
@@ -13,14 +17,14 @@ alert("我的第一个 JavaScript");
 ## 1. 数据类型
 
 - numer
-  
-  只存在一种数字类型,可以通过科学计数法书写.
+
+	只存在一种数字类型,可以通过科学计数法书写.
 
 - string
 
 - boolean
-  
-  true/false
+
+	true/false
 
 - function
 
@@ -33,27 +37,28 @@ alert("我的第一个 JavaScript");
 - undefined
 
 - array
-  
-  ```javascript
-  var cars=new Array();
-  var cars=new Array("Saab","Volvo","BMW");
-  var cars=["Saab","Volvo","BMW"];
-  ```
+
+	```javascript
+	var cars=new Array();
+	var cars=new Array("Saab","Volvo","BMW");
+	var cars=["Saab","Volvo","BMW"];
+	```
 
 - object
-  
-  对象由花括号分隔。在括号内部，对象的属性以名称和值对的形式 (name : value) 来定义。属性由逗号分隔：
-  
-  ```javascript
-  //定义
-  var person={
-  firstname:"John", 
-  lastname:"Doe", 
-  id:5566};
-  //寻址
-  person.lastname;
-  person["lastname"];
-  ```
+
+	对象由花括号分隔。在括号内部，对象的属性以名称和值对的形式 (name : value) 来定义。属性由逗号分隔：
+
+	```javascript
+	//定义
+	var person={
+	    firstname:"John", 
+	    lastname:"Doe", 
+	    id:5566
+	};
+	//寻址
+	person.lastname;
+	person["lastname"];
+	```
 
 JS 使用动态类型,同一变量可用作不同的类型.
 
@@ -83,27 +88,27 @@ job="carpenter";
 ## 3. 运算符号
 
 - 数学运算
-  
-  字符串支持 + 拼接运算. 字符串+数字, 得到拼接字符串.
+
+	字符串支持 + 拼接运算. 字符串+数字, 得到拼接字符串.
 
 - 比较运算
-  
-  ```javascript
-  ==  //值相等
-  === //值和类型均相等
-  !=
-  !==
-  ```
+
+	```javascript
+	==  //值相等
+	=== //值和类型均相等
+	!=
+	!==
+	```
 
 - 逻辑运算
-  
-  同C
 
-- 位运算  
+	同C
+
+- 位运算
 
 - 条件运算符
-  
-  `*variablename*=(*condition*)?*value1*:*value2*`
+
+	`*variablename*=(*condition*)?*value1*:*value2*`
 
 ## 4. 流程控制
 
@@ -138,11 +143,26 @@ do{ }while( );
 
 ## 5. 函数
 
+**正常函数**
 ```javascript
 function functionname()
 {
-    return;
+    return ret;
 }
+```
+
+**匿名函数**
+```js
+function ()
+{
+    return ret;
+}
+```
+实际使用
+```js
+(function (paraList,...){
+
+})(para,...)
 ```
 
 ## 6. 文件与I/O
@@ -154,14 +174,14 @@ function functionname()
 - 对象属性
 
 - 对象方法
-  
-  ```javascript
-  //创建
-  methodName : function() {
-      // code
-  }
-  //访问
-  objectName.methodName()
-  ```
+
+	```javascript
+	//创建
+	methodName : function() {
+	    // code
+	}
+	//访问
+	objectName.methodName()
+	```
 
 ## 错误处理

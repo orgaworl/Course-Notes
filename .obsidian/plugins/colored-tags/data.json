@@ -109,7 +109,9 @@
     "define": 97,
     "IoT": 98,
     "embeded": 99,
-    "embedded": 100
+    "embedded": 100,
+    "rehost": 101,
+    "paper": 102
   },
   "_version": 3
 }
